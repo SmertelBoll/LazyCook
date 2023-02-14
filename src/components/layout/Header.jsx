@@ -1,7 +1,8 @@
-import { Typography } from "@mui/material";
-import { Box, Container } from "@mui/system";
-import React, { isValidElement, useState } from "react";
+import { AppBar, Typography } from "@mui/material";
+import { Box } from "@mui/system";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { StyledButton, StyledContainer } from "../custom/customComponents";
 
 const navigation = [
   { name: "home", link: "/" },
@@ -13,49 +14,61 @@ function Header() {
   const [activeMenu, setActiveMenu] = useState(navigation[0].name);
 
   return (
-    <Container
-      sx={{
-        display: "flex",
-      }}
-    >
-      {/* logo */}
-      <Typography
+    <AppBar sx={{ bgcolor: "bg.main" }}>
+      <StyledContainer
         sx={{
-          flexBasis: "33.33%",
           display: "flex",
-          justifyContent: "flex-start",
+          alignItems: "center",
         }}
       >
-        LC
-      </Typography>
+        {/* logo */}
+        <Typography
+          variant="logo"
+          sx={{
+            flexBasis: "33.33%",
+            display: "flex",
+            justifyContent: "flex-start",
+            color: "text.black",
+          }}
+        >
+          LC
+        </Typography>
 
-      {/* large menu */}
-      <Box
-        sx={{
-          flexBasis: "33.33%",
-          display: "flex",
-          justifyContent: "center",
-          gap: "20px",
-        }}
-      >
-        {navigation.map((nav) => (
-          <NavLink key={nav.name} to={nav.link}>
-            {nav.name}
+        {/* large menu */}
+        <Box
+          sx={{
+            flexBasis: "33.33%",
+            display: "flex",
+            justifyContent: "center",
+            gap: "0px 16px",
+          }}
+        >
+          {navigation.map((nav) => (
+            <NavLink key={nav.name} to={nav.link}>
+              <StyledButton>
+                <Typography variant="h3">{nav.name}</Typography>
+              </StyledButton>
+            </NavLink>
+          ))}
+        </Box>
+
+        {/* auth */}
+        <Box
+          variant="h3"
+          sx={{
+            flexBasis: "33.33%",
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
+          <NavLink>
+            <StyledButton>
+              <Typography variant="h3">sing in</Typography>
+            </StyledButton>
           </NavLink>
-        ))}
-      </Box>
-
-      {/* auth */}
-      <Box
-        sx={{
-          flexBasis: "33.33%",
-          display: "flex",
-          justifyContent: "flex-end",
-        }}
-      >
-        <NavLink>sing in</NavLink>
-      </Box>
-    </Container>
+        </Box>
+      </StyledContainer>
+    </AppBar>
   );
 }
 
