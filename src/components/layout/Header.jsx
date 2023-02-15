@@ -36,7 +36,11 @@ function Header() {
   };
 
   return (
-    <AppBar position="static" sx={{ bgcolor: "bg.main", p: 2 }}>
+    <AppBar
+      position="static"
+      component="header"
+      sx={{ bgcolor: "bg.main", py: 2 }}
+    >
       <StyledContainer
         sx={{
           display: "flex",
@@ -145,7 +149,7 @@ function Header() {
                   },
                 }}
               >
-                <Typography variant="h3">{nav.name}</Typography>
+                <Typography variant="p">{nav.name}</Typography>
               </StyledButton>
             </NavLink>
           ))}
@@ -153,15 +157,16 @@ function Header() {
 
         {/* auth */}
         <Box
-          variant="h3"
+          variant="p"
           sx={{
             flexBasis: "33.33%",
             display: "flex",
             justifyContent: "flex-end",
           }}
         >
-          <NavLink>
+          <NavLink to="/sign-in">
             <StyledButton
+              onClick={() => handleNavClick("sign in")}
               sx={{
                 color: "text.grey",
                 borderRadius: 3,
@@ -172,7 +177,7 @@ function Header() {
                 },
               }}
             >
-              <Typography variant="h3">sing in</Typography>
+              <Typography variant="p">sign in</Typography>
             </StyledButton>
           </NavLink>
         </Box>

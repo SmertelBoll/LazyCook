@@ -28,18 +28,10 @@ const typography = {
     },
     fontWeight: 600,
   },
-  h3: {                                  // header button, ingredient text
+  p: {                                  // header button, ingredient text
     fontSize: smallFormula(16, 28),
     '@media (min-width:767px)': {
       fontSize: largeFormula(16, 28),
-    },
-    fontWeight: 400,
-    textTransform: "unset",
-  },
-  p: {
-    fontSize: smallFormula(16, 32),
-    '@media (min-width:767px)': {
-      fontSize: largeFormula(16, 32),
     },
     fontWeight: 400,
     textTransform: "unset",

@@ -1,7 +1,3 @@
-function createGradient(color1, color2, direction = 'bottom') {
-  return `linear-gradient(to ${direction}, ${color1}, ${color2})`;
-}
-
 const BG_COLOR = {
   main: '#FDFDFD',       // white
   blue: '#E5EEFF',
@@ -19,16 +15,17 @@ const TEXT_COLOR = {
 const BG_BUTTON_COLOR = {
   grey: '#CBCCE0',        // header nav
   white: '#FDFDFD',
+  whiteGrey: '#F1F0EA',
   whiteBlue: '#E5EEFF',   // hover white
-  dark: '#000000',
+  black: '#000000',
 }
 
 const palette = {
   bg: BG_COLOR,
   text: TEXT_COLOR,
   buttonbg: BG_BUTTON_COLOR,
-  gradients: {
-    bgblue: createGradient(BG_COLOR.lightBlue, BG_COLOR.darkBlue, 'top') //blue bg
+  gradient: {
+    bgblue: `linear-gradient(0deg, ${BG_COLOR.lightBlue} 0%, ${BG_COLOR.darkBlue} 100%)` //blue bg
   },
 }
 

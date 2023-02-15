@@ -13,13 +13,11 @@ function Footer() {
       bgcolor={theme.palette.bg.main}
       sx={{
         py: 3,
+        textAlign: "center",
       }}
     >
       <StyledContainer>
-        <Typography
-          variant="h3"
-          sx={{ textAlign: "center", color: "text.grey" }}
-        >
+        <Typography variant="p" sx={{ color: "text.grey" }}>
           © 2023 LazyCook
         </Typography>
       </StyledContainer>
