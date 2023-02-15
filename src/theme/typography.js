@@ -51,7 +51,10 @@ const typography = {
     },
     fontWeight: 700,
   },
-  
+  navDrawer: {
+    fontSize: "28px",
+    fontWeight: 400,
+  },
 }
 
 export default typography;
