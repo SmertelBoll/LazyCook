@@ -1,5 +1,6 @@
 const BG_COLOR = {
   main: '#FDFDFD',       // white
+  white: '#FFFFFF',
   blue: '#E5EEFF',
   grey: '#F1F0EA',
   lightBlue: '#E1EBFF',

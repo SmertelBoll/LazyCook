@@ -36,10 +36,15 @@ function Header() {
   };
 
   return (
-    <AppBar
+    <Box
       position="static"
       component="header"
-      sx={{ bgcolor: "bg.main", py: 2 }}
+      bgcolor="bg.main"
+      sx={{
+        py: 2,
+        position: "relative",
+        boxShadow: 0,
+      }}
     >
       <StyledContainer
         sx={{
@@ -99,6 +104,7 @@ function Header() {
                         "&:hover": { color: "text.white", bgcolor: "bg.dark" },
                       }}
                     >
+                      {/* <Typography variant="navDrawer">{nav.name}</Typography> */}
                       {nav.name}
                     </ListItemButton>
                   </NavLink>
@@ -182,7 +188,7 @@ function Header() {
           </NavLink>
         </Box>
       </StyledContainer>
-    </AppBar>
+    </Box>
   );
 }
 

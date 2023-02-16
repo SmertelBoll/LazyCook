@@ -4,13 +4,11 @@ import {
   StyledButton,
   StyledContainer,
 } from "../components/custom/customComponents";
-import { useTheme } from "@emotion/react";
 import bgImage from "../assets/bg-home.png";
 import noteImage from "../assets/notebook-features.png";
 import { NavLink } from "react-router-dom";
 
 function HomePage() {
-  const theme = useTheme();
   const refScroll = React.createRef();
   const scrollNext = () => {
     refScroll.current.scrollIntoView({ behavior: "smooth" });
@@ -88,7 +86,7 @@ function HomePage() {
         ref={refScroll}
         sx={{
           height: "100vh",
-          background: theme.palette.gradient.bgblue,
+          background: (theme) => theme.palette.gradient.bgblue,
           position: "relative",
         }}
       >
@@ -96,12 +94,13 @@ function HomePage() {
           component={"img"}
           src={noteImage}
           sx={{
-            height: "90%",
             position: "absolute",
             left: 0,
             bottom: 0,
             zIndex: 0,
             display: { xs: "none", xl: "block" },
+            maxWidth: "50vw",
+            aspectRatio: "1",
           }}
         />
         <StyledContainer
@@ -137,7 +136,7 @@ function HomePage() {
                   px: 5,
                   borderRadius: 7,
                   bgcolor: "buttonbg.whiteGrey",
-                  boxShadow: (theme) => theme.shadows.blockShadow,
+                  boxShadow: 2,
                   "&:hover": {
                     bgcolor: "buttonbg.whiteBlue",
                   },
