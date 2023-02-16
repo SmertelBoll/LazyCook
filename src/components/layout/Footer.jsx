@@ -9,7 +9,7 @@ function Footer() {
       component="footer"
       bgcolor="bg.main"
       sx={{
-        py: 3,
+        py: { xs: 2, sm: 3 },
         textAlign: "center",
         position: "relative",
         boxShadow: 1,

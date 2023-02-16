@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import {
   StyledButton,
-  StyledContainer,
+  StyledContainerWithPadding,
 } from "../components/custom/customComponents";
 import bgImage from "../assets/bg-home.png";
 import noteImage from "../assets/notebook-features.png";
@@ -25,12 +25,13 @@ function HomePage() {
           backgroundPosition: "center",
         }}
       >
-        <StyledContainer
+        <StyledContainerWithPadding
           sx={{
             minHeight: "100vh",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            py: { xs: 4, sm: "auto" },
           }}
         >
           <Box
@@ -78,14 +79,14 @@ function HomePage() {
               </Typography>
             </StyledButton>
           </Box>
-        </StyledContainer>
+        </StyledContainerWithPadding>
       </Box>
 
       {/* second block */}
       <Box
         ref={refScroll}
         sx={{
-          height: "100vh",
+          height: { xs: "100%", sm: "100vh" },
           background: (theme) => theme.palette.gradient.bgblue,
           position: "relative",
         }}
@@ -98,20 +99,23 @@ function HomePage() {
             left: 0,
             bottom: 0,
             zIndex: 0,
-            display: { xs: "none", xl: "block" },
-            maxWidth: "50vw",
+            display: { xs: "none", lg: "block" },
+            maxWidth: { lg: "30vw", xl: "50vw" },
             aspectRatio: "1",
           }}
         />
-        <StyledContainer
+        <StyledContainerWithPadding
           sx={{
             height: "100%",
             display: "flex",
             justifyContent: "flex-end",
             alignItems: "center",
+            // py: { xs: 4, sm: "auto" },
           }}
         >
-          <Box sx={{ flexBasis: "50%", zIndex: 10 }}>
+          <Box
+            sx={{ flexBasis: { xs: "100%", lg: "75%", xl: "50%" }, zIndex: 10 }}
+          >
             <Typography
               variant="h2"
               component="h2"
@@ -148,7 +152,7 @@ function HomePage() {
               </StyledButton>
             </NavLink>
           </Box>
-        </StyledContainer>
+        </StyledContainerWithPadding>
       </Box>
     </>
   );

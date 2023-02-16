@@ -41,7 +41,7 @@ function Header() {
       component="header"
       bgcolor="bg.main"
       sx={{
-        py: 2,
+        py: { sx: 0, sm: 2 },
         position: "relative",
         boxShadow: 0,
       }}
