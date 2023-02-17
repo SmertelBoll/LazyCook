@@ -86,9 +86,11 @@ function HomePage() {
       <Box
         ref={refScroll}
         sx={{
-          height: { xs: "100%", sm: "100vh" },
+          minHeight: { xs: "100%", sm: "100vh" },
           background: (theme) => theme.palette.gradient.bgblue,
           position: "relative",
+          display: "flex",
+          alignItems: "center",
         }}
       >
         <Box
@@ -101,6 +103,7 @@ function HomePage() {
             zIndex: 0,
             display: { xs: "none", lg: "block" },
             maxWidth: { lg: "30vw", xl: "50vw" },
+            maxHeight: "100vh",
             aspectRatio: "1",
           }}
         />
@@ -110,7 +113,6 @@ function HomePage() {
             display: "flex",
             justifyContent: "flex-end",
             alignItems: "center",
-            // py: { xs: 4, sm: "auto" },
           }}
         >
           <Box

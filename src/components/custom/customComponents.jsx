@@ -9,9 +9,7 @@ export const StyledButton = styled(Button)(({ theme }) =>
 // without py
 export const StyledContainer = styled(Container)(({ theme }) =>
   theme.unstable_sx({
-    "@media (min-width: 1500px)": {
-      maxWidth: "calc(100vw - 380px)",
-    },
+    maxWidth: { xl: "min(calc(100vw - 380px), 1540px)" },
   })
 );
 

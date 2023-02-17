@@ -36,9 +36,9 @@ function Header() {
       component="header"
       bgcolor="bg.main"
       sx={{
-        py: { sx: 0, sm: 2 },
         position: "relative",
         boxShadow: 0,
+        py: { xs: 1, sm: 2 },
       }}
     >
       <StyledContainer
@@ -60,9 +60,9 @@ function Header() {
             edge="end"
             size="medium"
             onClick={handleDrawerOpen}
+            sx={{ p: 0 }}
           >
             <MenuIcon
-              style={{ color: "text.black" }}
               sx={{
                 fontSize: "clamp(25px, calc(25px + 4vw), 45px)",
                 color: "text.black",
@@ -90,7 +90,10 @@ function Header() {
                         fontWeight: (theme) =>
                           theme.typography.navDrawer.fontWeight,
                         px: 2,
-                        "&:hover": { color: "text.white", bgcolor: "bg.dark" },
+                        "&:hover": {
+                          color: "text.white",
+                          bgcolor: "buttonbg.grey",
+                        },
                       }}
                     >
                       {/* <Typography variant="navDrawer">{nav.name}</Typography> */}

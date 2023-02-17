@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import React from "react";
 import { StyledContainerWithPadding } from "../components/custom/customComponents";
 import RecipesCard from "../components/RecipesCard";
@@ -18,19 +18,16 @@ function RecipesPage() {
           borderRadius: "28px 28px 0px 0px",
         }}
       >
-        <StyledContainerWithPadding
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-between",
-            gap: 5,
-          }}
-        >
-          {Array(10)
-            .fill(0)
-            .map((name) => (
-              <RecipesCard />
-            ))}
+        <StyledContainerWithPadding>
+          <Grid container spacing={4}>
+            {Array(12)
+              .fill(0)
+              .map((name, i) => (
+                <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
+                  <RecipesCard>xs=8</RecipesCard>
+                </Grid>
+              ))}
+          </Grid>
         </StyledContainerWithPadding>
       </Box>
     </Box>
