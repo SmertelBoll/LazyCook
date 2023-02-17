@@ -1,11 +1,10 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
 import { StyledContainerWithPadding } from "../components/custom/customComponents";
+import RecipesCard from "../components/RecipesCard";
 import Search from "../components/Search";
 
 function RecipesPage() {
-  // const theme = useTheme();
-
   return (
     <Box bgcolor="bg.white" sx={{ height: "100%" }}>
       <StyledContainerWithPadding>
@@ -19,7 +18,20 @@ function RecipesPage() {
           borderRadius: "28px 28px 0px 0px",
         }}
       >
-        <StyledContainerWithPadding>123</StyledContainerWithPadding>
+        <StyledContainerWithPadding
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+            gap: 5,
+          }}
+        >
+          {Array(10)
+            .fill(0)
+            .map((name) => (
+              <RecipesCard />
+            ))}
+        </StyledContainerWithPadding>
       </Box>
     </Box>
   );
