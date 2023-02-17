@@ -10,17 +10,14 @@ export const StyledButton = styled(Button)(({ theme }) =>
 export const StyledContainer = styled(Container)(({ theme }) =>
   theme.unstable_sx({
     "@media (min-width: 1500px)": {
-      maxWidth: "calc(100% - 380px)",
+      maxWidth: "calc(100vw - 380px)",
     },
   })
 );
 
 // with py
-export const StyledContainerWithPadding = styled(Container)(({ theme }) =>
+export const StyledContainerWithPadding = styled(StyledContainer)(({ theme }) =>
   theme.unstable_sx({
-    "@media (min-width: 1500px)": {
-      maxWidth: "calc(100% - 380px)",
-    },
-    py: { xs: 2, sm: "clamp(16px, calc(16px + 1vw), 32px)" },
+    py: { xs: 3, sm: "clamp(16px, calc(16px + 1.8vw), 40px)" },
   })
 );

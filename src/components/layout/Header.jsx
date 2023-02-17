@@ -1,5 +1,4 @@
 import {
-  AppBar,
   IconButton,
   Typography,
   Box,
@@ -11,7 +10,8 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { StyledButton, StyledContainer } from "../custom/customComponents";
+import { StyledContainer } from "../custom/customComponents";
+import GreyButton from "../custom/GreyButton";
 
 const navigation = [
   { name: "home", link: "/" },
@@ -20,12 +20,7 @@ const navigation = [
 ];
 
 function Header() {
-  const [activeNav, setActiveNav] = useState(navigation[0].name);
   const [isDrawer, setIsDrawer] = useState(false);
-
-  const handleNavClick = (item) => {
-    setActiveNav(item);
-  };
 
   const handleDrawerOpen = () => {
     setIsDrawer(true);
@@ -79,23 +74,17 @@ function Header() {
             open={isDrawer}
             onClose={handleDrawerClose}
             PaperProps={{
-              sx: { width: "300px" },
+              sx: { width: { xs: "80vw", sm: "300px" } },
             }}
           >
-            <List sx={{ p: 0, m: 5 }}>
+            <List sx={{ p: 0, m: 4 }}>
               {navigation.map((nav) => (
                 <Box key={nav.name} onClick={handleDrawerClose}>
-                  <NavLink
-                    to={nav.link}
-                    style={{ textDecoration: "none" }}
-                    onClick={() => handleNavClick(nav.name)}
-                  >
+                  <NavLink to={nav.link} style={{ textDecoration: "none" }}>
                     <ListItemButton
                       sx={{
                         color: "text.grey",
                         borderRadius: 3,
-                        textDecoration:
-                          activeNav === nav.name ? "underline" : "none",
                         fontSize: (theme) =>
                           theme.typography.navDrawer.fontSize,
                         fontWeight: (theme) =>
@@ -138,26 +127,9 @@ function Header() {
           }}
         >
           {navigation.map((nav) => (
-            <NavLink
-              key={nav.name}
-              to={nav.link}
-              onClick={() => handleNavClick(nav.name)}
-            >
-              <StyledButton
-                sx={{
-                  color: "text.grey",
-                  borderRadius: 3,
-                  px: 2,
-                  textDecoration: activeNav === nav.name ? "underline" : "none",
-                  "&:hover": {
-                    color: "text.white",
-                    bgcolor: "buttonbg.grey",
-                  },
-                }}
-              >
-                <Typography variant="p">{nav.name}</Typography>
-              </StyledButton>
-            </NavLink>
+            <GreyButton link={nav.link} key={nav.name}>
+              {nav.name}
+            </GreyButton>
           ))}
         </Box>
 
@@ -170,22 +142,7 @@ function Header() {
             justifyContent: "flex-end",
           }}
         >
-          <NavLink to="/sign-in">
-            <StyledButton
-              onClick={() => handleNavClick("sign in")}
-              sx={{
-                color: "text.grey",
-                borderRadius: 3,
-                px: 2,
-                "&:hover": {
-                  color: "text.white",
-                  bgcolor: "buttonbg.grey",
-                },
-              }}
-            >
-              <Typography variant="p">sign in</Typography>
-            </StyledButton>
-          </NavLink>
+          <GreyButton link="/sign-in">sign in</GreyButton>
         </Box>
       </StyledContainer>
     </Box>
