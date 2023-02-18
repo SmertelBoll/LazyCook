@@ -32,11 +32,10 @@ function Header() {
 
   return (
     <Box
-      position="static"
+      position="relative"
       component="header"
       bgcolor="bg.main"
       sx={{
-        position: "relative",
         boxShadow: 0,
         py: { xs: 1, sm: 2 },
       }}

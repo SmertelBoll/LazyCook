@@ -11,7 +11,6 @@ function Footer() {
       sx={{
         py: { xs: 2, sm: 3 },
         textAlign: "center",
-        position: "relative",
         boxShadow: 1,
       }}
     >
