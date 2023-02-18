@@ -1,8 +1,8 @@
-import { Box, Grid } from "@mui/material";
+import { Box, CircularProgress, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useInfiniteQuery } from "react-query";
+import GridSkeleton from "../components/custom/GridSkeleton";
 import { StyledContainerWithPadding } from "../components/custom/customComponents";
-import GreyButton from "../components/custom/GreyButton";
 import RecipesCard from "../components/RecipesCard";
 import Search from "../components/Search";
 import { getAllRecipes } from "../services/recipes-api";
@@ -17,11 +17,12 @@ function RecipesPage() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
   useEffect(() => {
     if (
-      window.scrollY >= document.body.scrollHeight - window.innerHeight - 450 &&
-      !isFetchingNextPage
+      window.scrollY >= document.body.scrollHeight - window.innerHeight - 450 && // скрол знизу
+      hasNextPage && // наступна група даних існує
+      !isFetchingNextPage && // наступна група даних зараз не загружається
+      data?.pages[data?.pages.length - 1]?.recipes?.data.length !== 0 // якщо повертаємий масив пустий, то даних більше немає
     ) {
       fetchNextPage();
     }
@@ -55,13 +56,13 @@ function RecipesPage() {
         }}
       >
         <StyledContainerWithPadding>
-          {status === "loading" ? (
-            <p>Загрузка...</p>
-          ) : status === "error" ? (
-            <p>Ошибка: {error}</p>
-          ) : (
-            <>
-              <Grid container spacing={4}>
+          <Grid container spacing={4}>
+            {status === "loading" ? (
+              <GridSkeleton size={12} />
+            ) : status === "error" ? (
+              <p>Ошибка: {error}</p>
+            ) : (
+              <>
                 {data.pages.map((group, i) => (
                   <React.Fragment key={i}>
                     {group.recipes.data.map((data, i) => (
@@ -78,17 +79,16 @@ function RecipesPage() {
                     ))}
                   </React.Fragment>
                 ))}
-              </Grid>
-
-              {data.pages[data.pages.length - 1].recipes.data.length === 0 ? (
-                <GreyButton>123456</GreyButton>
-              ) : (
-                <></>
-              )}
-            </>
+              </>
+            )}
+          </Grid>
+          {isFetchingNextPage && (
+            <Box sx={{ display: "flex", justifyContent: "center", pt: 5 }}>
+              <CircularProgress sx={{ color: "text.grey" }} />
+            </Box>
           )}
 
-          <div>
+          {/* <div>
             <button
               onClick={() => fetchNextPage()}
               disabled={!hasNextPage || isFetchingNextPage}
@@ -99,10 +99,7 @@ function RecipesPage() {
                 ? "Загрузить еще"
                 : "Больше нечего загружать"}
             </button>
-          </div>
-          <div>
-            {isFetching && !isFetchingNextPage ? "Выполнение запроса..." : null}
-          </div>
+          </div> */}
         </StyledContainerWithPadding>
       </Box>
     </Box>

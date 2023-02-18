@@ -8,7 +8,7 @@ import {
 import React from "react";
 import bgImage from "../assets/bg-home.png";
 
-function RecipesCard({ name = "RecipeName", url = "", ...props }) {
+function RecipesCard({ name = "RecipeName", url = "" }) {
   return (
     <Card
       bgcolor="bg.white"
@@ -22,7 +22,7 @@ function RecipesCard({ name = "RecipeName", url = "", ...props }) {
       <CardMedia
         sx={{ height: "100%", aspectRatio: "1", borderRadius: 7 }}
         image={bgImage}
-        title="green iguana"
+        // title={name}
       />
       <CardContent
         sx={{ textAlign: "center", pt: 2, pb: { xs: 3, xl: 4 }, px: 0 }}
