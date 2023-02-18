@@ -96,7 +96,6 @@ function Header() {
                         },
                       }}
                     >
-                      {/* <Typography variant="navDrawer">{nav.name}</Typography> */}
                       {nav.name}
                     </ListItemButton>
                   </NavLink>

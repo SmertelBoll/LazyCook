@@ -7,6 +7,7 @@ function GreyButton({ link, ...props }) {
   return (
     <NavLink to={link}>
       <StyledButton
+        onClick={props?.onClick}
         sx={{
           color: "text.grey",
           borderRadius: 3,
