@@ -8,7 +8,7 @@ import {
 import SearchInput from "./SearchInput";
 import DataMap from "./DataMap";
 
-function RecipesProductsBlock({
+function ItemsBlock({
   searchText,
   onChangeInput,
   scroll,
@@ -49,7 +49,7 @@ function RecipesProductsBlock({
               gap: 0,
             }}
           >
-            {searchValue ? ( // чи писали щось в input
+            {searchValue ? (
               <DataMap
                 recipes={recipesByName}
                 isFetchingNextPage={isFetchingNextPageByName}
@@ -105,4 +105,4 @@ function RecipesProductsBlock({
   );
 }
 
-export default RecipesProductsBlock;
+export default ItemsBlock;

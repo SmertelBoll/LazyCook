@@ -1,17 +1,8 @@
-import { Box, CircularProgress, Grid, Grow, IconButton } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
-import NorthIcon from "@mui/icons-material/North";
-import { useInfiniteQuery, useQuery } from "react-query";
-import GridSkeleton from "../components/custom/GridSkeleton";
-import {
-  StyledContainer,
-  StyledContainerWithPadding,
-} from "../components/custom/customComponents";
-import RecipesCard from "../components/Recipes/RecipesCard";
+import { useInfiniteQuery } from "react-query";
 import { getAllRecipes, searchRecipes } from "../services/recipes-api";
 import debounce from "lodash.debounce";
-import SearchInput from "../components/RecipesProductsBlock/SearchInput";
-import RecipesProductsBlock from "../components/RecipesProductsBlock/RecipesProductsBlock";
+import ItemsBlock from "../components/ItemsBlock/ItemsBlock";
 
 function RecipesPage() {
   const [scroll, setScroll] = useState(0);
@@ -92,7 +83,7 @@ function RecipesPage() {
   });
 
   return (
-    <RecipesProductsBlock
+    <ItemsBlock
       searchText={searchText}
       onChangeInput={onChangeInput}
       scroll={scroll}

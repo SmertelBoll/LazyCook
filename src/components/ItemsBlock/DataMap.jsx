@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import React from "react";
 import GridSkeleton from "../custom/GridSkeleton";
-import RecipesCard from "../Recipes/RecipesCard";
+import RecipesCard from "./ItemCard";
 import EmptyData from "./EmptyData";
 
 function DataMap({ recipes, isFetchingNextPage, isFetched, isFetching }) {
@@ -17,7 +17,7 @@ function DataMap({ recipes, isFetchingNextPage, isFetched, isFetching }) {
             <React.Fragment key={i}>
               {group.data.map((obj, i) => (
                 <Grid
-                  sx={{ p: 2 }}
+                  sx={{ p: { xs: 1, sm: 2 } }}
                   item
                   xs={12}
                   sm={6}
@@ -25,14 +25,14 @@ function DataMap({ recipes, isFetchingNextPage, isFetched, isFetching }) {
                   lg={3}
                   key={`${obj?.id}_${obj?.name}`}
                 >
-                  <RecipesCard name={obj?.name} url={obj?.url} />
+                  <RecipesCard name={obj?.name} />
                 </Grid>
               ))}
             </React.Fragment>
           ))}
         </>
       ) : (
-        <EmptyData boolButton={true} />
+        <EmptyData isButton={true} />
       )}
     </>
   );

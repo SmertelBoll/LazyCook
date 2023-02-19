@@ -3,7 +3,7 @@ import React, { createRef, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { StyledButton } from "../custom/customComponents";
 
-function EmptyData({ boolButton }) {
+function EmptyData({ isButton }) {
   return (
     <>
       <Box
@@ -23,7 +23,7 @@ function EmptyData({ boolButton }) {
           Unfortunately, we could not find any recipes.
         </Typography>
         <Typography variant="p">Try adding your own</Typography>
-        {boolButton && (
+        {isButton && (
           <NavLink to="my-recipes">
             <StyledButton
               sx={{
