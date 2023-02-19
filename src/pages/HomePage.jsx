@@ -4,9 +4,12 @@ import {
   StyledButton,
   StyledContainerWithPadding,
 } from "../components/custom/customComponents";
-import bgImage from "../assets/bg-home.png";
-import noteImage from "../assets/notebook-features.png";
 import { NavLink } from "react-router-dom";
+
+const bgImage =
+  "https://ubgaioenvbnlnkpgtyml.supabase.co/storage/v1/object/public/profiles/static/bg-home.png";
+const noteImage =
+  "https://ubgaioenvbnlnkpgtyml.supabase.co/storage/v1/object/public/profiles/static/notebook-features.png";
 
 function HomePage() {
   const refScroll = React.createRef();

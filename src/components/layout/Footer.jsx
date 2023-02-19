@@ -5,7 +5,7 @@ import { StyledContainer } from "../custom/customComponents";
 function Footer() {
   return (
     <Box
-      position="static"
+      position="relative"
       component="footer"
       bgcolor="bg.main"
       sx={{

@@ -24,9 +24,7 @@ function RecipesCard({ name = "RecipeName", url = "" }) {
         image={bgImage}
         // title={name}
       />
-      <CardContent
-        sx={{ textAlign: "center", pt: 2, pb: { xs: 3, xl: 4 }, px: 0 }}
-      >
+      <CardContent sx={{ textAlign: "center", pt: 2, pb: 2, px: 0 }}>
         <Tooltip title={name}>
           <Typography
             variant="p"

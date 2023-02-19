@@ -5,10 +5,10 @@ export const getAllRecipes = async ({ pageParam = 0 }) => {
     .from("testTable")
     .select("*")
     .range(pageParam, pageParam + 11);
-  return { recipes, nextPage: pageParam + 12 };
+  return { data: recipes.data, nextPage: pageParam + 12 };
 };
 
-export const searchRecipes = async ({ queryKey }) => {
+export const searchRecipes = async ({ queryKey, pageParam = 0 }) => {
   const [_, recipeName] = queryKey
   const recipes = await supabase
     .from("testTable")
@@ -17,7 +17,7 @@ export const searchRecipes = async ({ queryKey }) => {
       type: 'websearch',
       config: 'english',
     })
-    
-  return recipes
+    .range(pageParam, pageParam + 11);
+  return { data: recipes.data, nextPage: pageParam + 12 };
 };
 
