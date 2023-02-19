@@ -8,3 +8,16 @@ export const getAllRecipes = async ({ pageParam = 0 }) => {
   return { recipes, nextPage: pageParam + 12 };
 };
 
+export const searchRecipes = async ({ queryKey }) => {
+  const [_, recipeName] = queryKey
+  const recipes = await supabase
+    .from("testTable")
+    .select("*")
+    .textSearch('name', recipeName, {
+      type: 'websearch',
+      config: 'english',
+    })
+    
+  return recipes
+};
+

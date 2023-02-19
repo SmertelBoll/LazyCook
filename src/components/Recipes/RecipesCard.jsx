@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import bgImage from "../assets/bg-home.png";
+import bgImage from "../../assets/bg-home.png";
 
 function RecipesCard({ name = "RecipeName", url = "" }) {
   return (
