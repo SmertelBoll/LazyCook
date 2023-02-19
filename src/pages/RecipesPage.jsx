@@ -16,9 +16,15 @@ function RecipesPage() {
     }, 500),
     []
   );
-  const onChangeInput = (e) => {
-    setSearchText(e.target.value);
-    updateSearchValue(e.target.value);
+  const onChangeInput = (e, empty = false) => {
+    if (empty) {
+      // затираємо значення
+      setSearchText("");
+      updateSearchValue("");
+    } else {
+      setSearchText(e.target.value);
+      updateSearchValue(e.target.value);
+    }
   };
 
   // відстежування скролу

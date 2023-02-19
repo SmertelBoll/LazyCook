@@ -5,7 +5,7 @@ import {
   StyledContainer,
   StyledContainerWithPadding,
 } from "../custom/customComponents";
-import SearchInput from "./SearchInput";
+import SearchBlock from "./SearchBlock";
 import DataMap from "./DataMap";
 
 function ItemsBlock({
@@ -27,7 +27,7 @@ function ItemsBlock({
     <Box bgcolor="bg.white" sx={{ height: "100%" }}>
       {/* searchBlock */}
       <StyledContainerWithPadding>
-        <SearchInput searchText={searchText} onChangeInput={onChangeInput} />
+        <SearchBlock searchText={searchText} onChangeInput={onChangeInput} />
       </StyledContainerWithPadding>
 
       {/* Grid and scroll */}

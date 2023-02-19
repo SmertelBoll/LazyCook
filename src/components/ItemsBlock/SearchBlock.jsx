@@ -1,9 +1,10 @@
 import { Box, InputAdornment, TextField } from "@mui/material";
 import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 import GreyButton from "../custom/GreyButton";
 
-function SearchInput({ searchText, onChangeInput }) {
+function SearchBlock({ searchText, onChangeInput }) {
   return (
     <Box
       sx={{
@@ -35,7 +36,15 @@ function SearchInput({ searchText, onChangeInput }) {
           },
           endAdornment: (
             <InputAdornment position="end">
-              <SearchIcon fontSize="large" />
+              {searchText ? (
+                <ClearIcon
+                  fontSize="large"
+                  onClick={() => onChangeInput("", true)}
+                  sx={{ cursor: "pointer" }}
+                />
+              ) : (
+                <SearchIcon fontSize="large" />
+              )}
             </InputAdornment>
           ),
         }}
@@ -55,4 +64,4 @@ function SearchInput({ searchText, onChangeInput }) {
   );
 }
 
-export default SearchInput;
+export default SearchBlock;
