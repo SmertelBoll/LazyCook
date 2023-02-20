@@ -14,7 +14,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 const noImage =
   "https://ubgaioenvbnlnkpgtyml.supabase.co/storage/v1/object/public/profiles/static/no-image.png";
 
-function ItemCard({ isButtonAdd = false, name = "RecipeName", url = noImage }) {
+function ItemCard({ isButtonAdd = false, data = {} }) {
   const [isAdded, setIsAdded] = useState(false);
 
   const handleClick = () => {
@@ -22,7 +22,11 @@ function ItemCard({ isButtonAdd = false, name = "RecipeName", url = noImage }) {
   };
 
   return (
-    <Box sx={{ position: "relative" }}>
+    <Box
+      sx={{
+        position: "relative",
+      }}
+    >
       <Card
         bgcolor="bg.white"
         sx={{
@@ -30,15 +34,14 @@ function ItemCard({ isButtonAdd = false, name = "RecipeName", url = noImage }) {
           pt: { xs: 3, xl: 4 },
           borderRadius: 7,
           boxShadow: 2,
-          overflow: "auto",
         }}
       >
         <CardMedia
           sx={{ height: "100%", aspectRatio: "1", borderRadius: 7 }}
-          image={url}
+          image={data.imageUrl || noImage}
         />
         <CardContent sx={{ textAlign: "center", pt: 2, pb: 2, px: 0 }}>
-          <Tooltip title={name}>
+          <Tooltip title={data.name || "no name"}>
             <Typography
               variant="p"
               sx={{
@@ -49,7 +52,7 @@ function ItemCard({ isButtonAdd = false, name = "RecipeName", url = noImage }) {
                 WebkitLineClamp: 2,
               }}
             >
-              {name}
+              {data.name || "no name"}
             </Typography>
           </Tooltip>
         </CardContent>

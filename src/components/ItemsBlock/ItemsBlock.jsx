@@ -46,7 +46,9 @@ function ItemsBlock({
             sx={{
               width: "100%",
               minHeight: "100%",
-              gap: 0,
+              // gap: 0,
+              // display: "grid",
+              // gridTemplateColumns: "repeat(4, 1fr)",
             }}
           >
             {searchValue ? (

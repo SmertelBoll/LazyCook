@@ -58,7 +58,7 @@ function SearchBlock({ searchText, onChangeInput }) {
         }}
       >
         <GreyButton link="/recipes">all recipes</GreyButton>
-        <GreyButton link="my-recipes">my recipes</GreyButton>
+        <GreyButton link="/recipes/my-recipes">my recipes</GreyButton>
       </Box>
     </Box>
   );
