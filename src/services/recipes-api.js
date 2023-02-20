@@ -21,3 +21,12 @@ export const searchRecipes = async ({ queryKey, pageParam = 0 }) => {
   return { data: recipes.data, nextPage: pageParam + 12 };
 };
 
+export const getRecipeById = async({queryKey})=>{
+  const [_, id] = queryKey
+  const { data, error } = await supabase
+  .from('recipes')
+  .select()
+  .eq('id', id)
+  return data[0]
+}
+

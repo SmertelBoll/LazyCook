@@ -1,6 +1,7 @@
 import { Box, Grid, Typography } from "@mui/material";
 import React, { createRef, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import BlackButton from "../custom/BlackButton";
 import { StyledButton } from "../custom/customComponents";
 
 function EmptyData({ isButton }) {
@@ -22,31 +23,11 @@ function EmptyData({ isButton }) {
         <Typography variant="p">
           Unfortunately, we could not find any recipes.
         </Typography>
-        <Typography variant="p">Try adding your own</Typography>
+        <Typography variant="p" sx={{ mb: 3 }}>
+          Try adding your own
+        </Typography>
         {isButton && (
-          <NavLink to="my-recipes">
-            <StyledButton
-              sx={{
-                px: 4,
-                mt: 3,
-                border: "4px solid #000000",
-                borderRadius: 7,
-                maxWidth: "auto",
-                color: "text.black",
-                "&:hover": {
-                  color: "text.white",
-                  bgcolor: "buttonbg.black",
-                },
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-              }}
-            >
-              <Typography variant="p" sx={{ p: 0 }}>
-                my recipes
-              </Typography>
-            </StyledButton>
-          </NavLink>
+          <BlackButton link="/recipes/my-recipes">my recipes</BlackButton>
         )}
       </Box>
     </>

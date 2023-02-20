@@ -5,6 +5,8 @@ import {
   StyledContainer,
   StyledContainerWithPadding,
 } from "../custom/customComponents";
+import { BoxBgWhite, BoxBgBlue } from "../custom/customComponents";
+
 import SearchBlock from "./SearchBlock";
 import DataMap from "./DataMap";
 
@@ -24,21 +26,13 @@ function ItemsBlock({
   isFetchingNextPageByName,
 }) {
   return (
-    <Box bgcolor="bg.white" sx={{ height: "100%" }}>
+    <BoxBgWhite>
       {/* searchBlock */}
       <StyledContainerWithPadding>
         <SearchBlock searchText={searchText} onChangeInput={onChangeInput} />
       </StyledContainerWithPadding>
 
-      {/* Grid and scroll */}
-      <Box
-        bgcolor="bg.blue"
-        sx={{
-          minHeight: "100vh",
-          mx: { xs: 2, sm: 3 },
-          borderRadius: "28px 28px 0px 0px",
-        }}
-      >
+      <BoxBgBlue>
         {/* Grid */}
         <StyledContainerWithPadding sx={{ position: "relative" }}>
           <Grid
@@ -46,9 +40,6 @@ function ItemsBlock({
             sx={{
               width: "100%",
               minHeight: "100%",
-              // gap: 0,
-              // display: "grid",
-              // gridTemplateColumns: "repeat(4, 1fr)",
             }}
           >
             {searchValue ? (
@@ -102,8 +93,8 @@ function ItemsBlock({
             </IconButton>
           </Grow>
         </StyledContainer>
-      </Box>
-    </Box>
+      </BoxBgBlue>
+    </BoxBgWhite>
   );
 }
 

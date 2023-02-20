@@ -10,6 +10,7 @@ import {
 import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { NavLink } from "react-router-dom";
 
 const noImage =
   "https://ubgaioenvbnlnkpgtyml.supabase.co/storage/v1/object/public/profiles/static/no-image.png";
@@ -22,16 +23,17 @@ function ItemCard({ isButtonAdd = false, data = {} }) {
   };
 
   return (
-    <Box
-      sx={{
+    <NavLink
+      to={`${data.id}`}
+      style={{
         position: "relative",
       }}
     >
       <Card
         bgcolor="bg.white"
         sx={{
-          px: { xs: 3, xl: 4 },
-          pt: { xs: 3, xl: 4 },
+          px: { xs: 2, sm: 3, xl: 4 },
+          pt: { xs: 2, sm: 3, xl: 4 },
           borderRadius: 7,
           boxShadow: 2,
         }}
@@ -79,7 +81,7 @@ function ItemCard({ isButtonAdd = false, data = {} }) {
           {isAdded ? <RemoveIcon /> : <AddIcon />}
         </IconButton>
       )}
-    </Box>
+    </NavLink>
   );
 }
 

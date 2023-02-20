@@ -5,6 +5,7 @@ import {
   StyledContainerWithPadding,
 } from "../components/custom/customComponents";
 import { NavLink } from "react-router-dom";
+import BlackButton from "../components/custom/BlackButton";
 
 const bgImage =
   "https://ubgaioenvbnlnkpgtyml.supabase.co/storage/v1/object/public/profiles/static/bg-home.png";
@@ -60,27 +61,7 @@ function HomePage() {
             >
               Find out what to cook at home when your fridge is empty
             </Typography>
-            <StyledButton
-              onClick={scrollNext}
-              sx={{
-                px: 4,
-                border: "4px solid #000000",
-                borderRadius: 7,
-                maxWidth: "auto",
-                color: "text.black",
-                "&:hover": {
-                  color: "text.white",
-                  bgcolor: "buttonbg.black",
-                },
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-              }}
-            >
-              <Typography variant="p" sx={{ p: 0 }}>
-                see more
-              </Typography>
-            </StyledButton>
+            <BlackButton onClick={scrollNext}>see more</BlackButton>
           </Box>
         </StyledContainerWithPadding>
       </Box>
