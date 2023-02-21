@@ -15,12 +15,14 @@ function BlackButton({
     <NavLink to={link} style={{ width: "auto" }}>
       <StyledButton
         onClick={onClick}
-        {...sx}
         sx={{
           px: 4,
-          border: "4px solid #000000",
+          border: {
+            xs: "2px solid #000000",
+            sm: "3px solid #000000",
+            md: "4px solid #000000",
+          },
           borderRadius: 7,
-          maxWidth: "auto",
           color: "text.black",
           "&:hover": {
             color: "text.white",
@@ -28,6 +30,7 @@ function BlackButton({
           },
           display: "flex",
           justifyContent: "center",
+          alignItems: "center",
           ...sx,
         }}
       >

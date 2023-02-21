@@ -1,12 +1,5 @@
-import {
-  Box,
-  Card,
-  CardContent,
-  CardMedia,
-  CircularProgress,
-  Typography,
-} from "@mui/material";
-import React from "react";
+import { Box, CircularProgress, Tooltip, Typography } from "@mui/material";
+import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import BlackButton from "../components/custom/BlackButton";
@@ -28,12 +21,16 @@ function RecipeItem() {
     queryFn: getRecipeById,
   });
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <BoxBgWhite paddingTop={true} infinityScroll={false}>
       <BoxBgBlue infinityScroll={false}>
         <StyledContainerWithPadding>
-          {/* back */}
-          <Box sx={{ display: "flex", mb: 4 }}>
+          {/* back button */}
+          <Box sx={{ display: { xs: "none", md: "flex" }, mb: 4 }}>
             <BlackButton backArrow={true} link="/recipes">
               return back
             </BlackButton>
@@ -45,70 +42,97 @@ function RecipeItem() {
               <Box
                 sx={{
                   display: "flex",
-                  flexDirection: "row",
-                  gap: { xs: 2, sm: 3, lg: 4 },
-                  // maxHeight: "100%",
-                  // height: "100%",
-                  // minHeight: "100%",
+                  flexDirection: { xs: "column", md: "row" },
+                  gap: { xs: 3, md: 2 },
+                  maxHeight: { xs: "auto", md: "min(80vh, 1000px)" },
+                  mb: 4,
                 }}
               >
                 {/* recipeCard */}
-                <Card
+                <Box
                   bgcolor="bg.white"
                   sx={{
-                    flexBasis: "75%",
-                    px: { xs: 2, sm: 3, xl: 4 },
                     pt: { xs: 2, sm: 3, xl: 4 },
+                    px: { xs: 2, sm: 3, xl: 4 },
                     borderRadius: 7,
                     boxShadow: 2,
-                    height: "100%",
+                    width: { xs: "auto", md: "100%" },
+                    maxHeight: "100%",
                   }}
                 >
-                  <CardMedia
+                  <Box
                     sx={{
-                      aspectRatio: "1.4",
                       borderRadius: 7,
+                      width: "100%",
+                      height: "calc(100% - 70px)",
+                      objectFit: "cover",
+                      verticalAlign: "bottom",
                     }}
-                    image={data.imageUrl || noImage}
-                    height="250px"
+                    component="img"
+                    src={data.imageUrl || noImage}
                   />
-                  <CardContent sx={{ textAlign: "center", pt: 2, px: 0 }}>
-                    <Typography
-                      variant="p"
-                      sx={{
-                        display: "-webkit-box",
-                        wordWrap: "break-word",
-                        overflow: "hidden",
-                        WebkitBoxOrient: "vertical",
-                        WebkitLineClamp: 2,
-                      }}
+                  <Box
+                    sx={{
+                      textAlign: "center",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      height: "70px",
+                      p: 0,
+                    }}
+                  >
+                    <Tooltip
+                      title={
+                        <Typography fontSize={16}>
+                          {data.name || "no name"}
+                        </Typography>
+                      }
                     >
-                      {data.name || "no name"}
-                    </Typography>
-                  </CardContent>
-                </Card>
+                      <Typography
+                        variant="p"
+                        sx={{
+                          display: "-webkit-box",
+                          wordWrap: "break-word",
+                          overflow: "hidden",
+                          WebkitBoxOrient: "vertical",
+                          WebkitLineClamp: 1,
+                          color: "text.black",
+                        }}
+                      >
+                        {data.name || "no name"}
+                      </Typography>
+                    </Tooltip>
+                  </Box>
+                </Box>
+
+                {/* back button */}
+                <BlackButton
+                  backArrow={true}
+                  link="/recipes"
+                  sx={{ display: { xs: "flex", md: "none", width: "100%" } }}
+                >
+                  return back
+                </BlackButton>
 
                 {/* ingredients */}
                 <Box
                   sx={{
-                    flexBasis: "25%",
                     p: { xs: 2, sm: 3, xl: 4 },
                     borderRadius: 7,
                     boxShadow: 2,
                     bgcolor: "bg.grey",
                     display: "flex",
-                    alignItems: "stretch",
-                    flexDirection: "column",
+                    flexDirection: { xs: "row", md: "column" },
                     overflow: "auto",
-                    position: "relative",
-                    flex: "0 0 25%",
-
-                    height: "100%",
-                    gap: { xs: 2, sm: 3, lg: 4 },
+                    gap: { xs: 2, md: 3, lg: 4 },
                   }}
                 >
-                  {data.ingredients.map((name) => (
-                    <IngredientCard key={name} name={name} />
+                  {data.ingredients.map((name, i) => (
+                    <IngredientCard
+                      key={name}
+                      name={data.ingredients[i]}
+                      measure={data.measure[i]}
+                    />
                   ))}
                 </Box>
               </Box>
@@ -128,6 +152,7 @@ function RecipeItem() {
               </Box>
             </>
           ) : (
+            // loading
             <Box sx={{ display: "flex", justifyContent: "center", pt: 5 }}>
               <CircularProgress sx={{ color: "text.grey" }} />
             </Box>

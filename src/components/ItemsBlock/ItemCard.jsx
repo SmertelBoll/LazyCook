@@ -43,7 +43,11 @@ function ItemCard({ isButtonAdd = false, data = {} }) {
           image={data.imageUrl || noImage}
         />
         <CardContent sx={{ textAlign: "center", pt: 2, pb: 2, px: 0 }}>
-          <Tooltip title={data.name || "no name"}>
+          <Tooltip
+            title={
+              <Typography fontSize={16}>{data.name || "no name"}</Typography>
+            }
+          >
             <Typography
               variant="p"
               sx={{
