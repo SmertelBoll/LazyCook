@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import {
   StyledButton,
-  StyledContainerWithPadding,
+  StyledContainer,
 } from "../components/custom/customComponents";
 import { NavLink } from "react-router-dom";
 import BlackButton from "../components/custom/BlackButton";
@@ -29,7 +29,8 @@ function HomePage() {
           backgroundPosition: "center",
         }}
       >
-        <StyledContainerWithPadding
+        <StyledContainer
+          paddingY={true}
           sx={{
             minHeight: "100vh",
             display: "flex",
@@ -63,7 +64,7 @@ function HomePage() {
             </Typography>
             <BlackButton onClick={scrollNext}>see more</BlackButton>
           </Box>
-        </StyledContainerWithPadding>
+        </StyledContainer>
       </Box>
 
       {/* second block */}
@@ -91,7 +92,8 @@ function HomePage() {
             aspectRatio: "1",
           }}
         />
-        <StyledContainerWithPadding
+        <StyledContainer
+          paddingY={true}
           sx={{
             height: "100%",
             display: "flex",
@@ -138,7 +140,7 @@ function HomePage() {
               </StyledButton>
             </NavLink>
           </Box>
-        </StyledContainerWithPadding>
+        </StyledContainer>
       </Box>
     </>
   );

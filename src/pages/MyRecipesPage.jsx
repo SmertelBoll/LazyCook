@@ -2,18 +2,18 @@ import React from "react";
 import {
   BoxBgBlue,
   BoxBgWhite,
-  StyledContainerWithPadding,
+  StyledContainer,
 } from "../components/custom/customComponents";
 import SearchBlock from "../components/ItemsBlock/SearchBlock";
 
 function MyRecipesPage() {
   return (
     <BoxBgWhite>
-      <StyledContainerWithPadding>
+      <StyledContainer paddingY={true}>
         <SearchBlock />
-      </StyledContainerWithPadding>
+      </StyledContainer>
       <BoxBgBlue>
-        <StyledContainerWithPadding>123</StyledContainerWithPadding>
+        <StyledContainer paddingY={true}>123</StyledContainer>
       </BoxBgBlue>
     </BoxBgWhite>
   );

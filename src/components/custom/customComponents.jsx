@@ -7,23 +7,27 @@ export const StyledButton = styled(Button)(({ theme }) =>
 );
 
 // without py
-export const StyledContainer = styled(Container)(({ theme }) =>
-  theme.unstable_sx({
-    maxWidth: { xl: "min(calc(100vw - 380px), 1540px)" },
-  })
-);
-
-// with py
-export const StyledContainerWithPadding = styled(StyledContainer)(({ theme }) =>
-  theme.unstable_sx({
-    py: { xs: 3, sm: "clamp(16px, calc(16px + 1.8vw), 40px)" },
-  })
-);
+export function StyledContainer({ paddingY = false, sx = {}, children }) {
+  return (
+    <Container
+      sx={{
+        maxWidth: { xl: "min(calc(100vw - 380px), 1540px)" },
+        py: paddingY
+          ? { xs: 3, sm: "clamp(16px, calc(16px + 1.8vw), 40px)" }
+          : "auto",
+        ...sx,
+      }}
+    >
+      {children}
+    </Container>
+  );
+}
 
 // white background
 export function BoxBgWhite({
   paddingTop = false, // якщо є елемент без голубого фона, додатковий відступ не потрібен
   infinityScroll = true,
+  sx = {},
   children,
 }) {
   return (
@@ -33,6 +37,7 @@ export function BoxBgWhite({
         height: "100%",
         pt: paddingTop ? { xs: 2, sm: 3 } : 0,
         pb: infinityScroll ? 0 : { xs: 2, sm: 3 },
+        ...sx,
       }}
     >
       {children}

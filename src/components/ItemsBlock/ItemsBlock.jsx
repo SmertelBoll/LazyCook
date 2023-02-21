@@ -1,10 +1,7 @@
 import { Box, CircularProgress, Grid, Grow, IconButton } from "@mui/material";
 import React from "react";
 import NorthIcon from "@mui/icons-material/North";
-import {
-  StyledContainer,
-  StyledContainerWithPadding,
-} from "../custom/customComponents";
+import { StyledContainer } from "../custom/customComponents";
 import { BoxBgWhite, BoxBgBlue } from "../custom/customComponents";
 
 import SearchBlock from "./SearchBlock";
@@ -28,13 +25,13 @@ function ItemsBlock({
   return (
     <BoxBgWhite>
       {/* searchBlock */}
-      <StyledContainerWithPadding>
+      <StyledContainer paddingY={true}>
         <SearchBlock searchText={searchText} onChangeInput={onChangeInput} />
-      </StyledContainerWithPadding>
+      </StyledContainer>
 
       <BoxBgBlue>
         {/* Grid */}
-        <StyledContainerWithPadding sx={{ position: "relative" }}>
+        <StyledContainer paddingY={true} sx={{ position: "relative" }}>
           <Grid
             container
             sx={{
@@ -65,7 +62,7 @@ function ItemsBlock({
               <CircularProgress sx={{ color: "text.grey" }} />
             </Box>
           )}
-        </StyledContainerWithPadding>
+        </StyledContainer>
 
         {/* scroll to top */}
         <StyledContainer

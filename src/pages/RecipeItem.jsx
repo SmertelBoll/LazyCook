@@ -6,7 +6,7 @@ import BlackButton from "../components/custom/BlackButton";
 import {
   BoxBgWhite,
   BoxBgBlue,
-  StyledContainerWithPadding,
+  StyledContainer,
 } from "../components/custom/customComponents";
 import IngredientCard from "../components/RecipeItem/IngredientCard";
 import { getRecipeById } from "../services/recipes-api";
@@ -28,7 +28,7 @@ function RecipeItem() {
   return (
     <BoxBgWhite paddingTop={true} infinityScroll={false}>
       <BoxBgBlue infinityScroll={false}>
-        <StyledContainerWithPadding>
+        <StyledContainer paddingY={true}>
           {/* back button */}
           <Box sx={{ display: { xs: "none", md: "flex" }, mb: 4 }}>
             <BlackButton backArrow={true} link="/recipes">
@@ -157,7 +157,7 @@ function RecipeItem() {
               <CircularProgress sx={{ color: "text.grey" }} />
             </Box>
           )}
-        </StyledContainerWithPadding>
+        </StyledContainer>
       </BoxBgBlue>
     </BoxBgWhite>
   );
