@@ -7,6 +7,7 @@ import ProductsPage from "./pages/ProductsPage";
 import RecipesPage from "./pages/RecipesPage";
 import SignIn from "./pages/SignIn";
 import RecipeItem from "./pages/RecipeItem";
+import MyRecipesPage from "./pages/MyRecipesPage";
 
 function App() {
   const queryClient = new QueryClient({
@@ -26,7 +27,7 @@ function App() {
           <Route path="products" element={<ProductsPage />} />
           <Route path="recipes" element={<RecipesPage />} />
           <Route path="recipes/:id" element={<RecipeItem />} />
-          <Route path="recipes/my-recipes" element={<RecipesPage />} />
+          <Route path="recipes/my-recipes" element={<MyRecipesPage />} />
           <Route path="sign-in" element={<SignIn />} />
         </Route>
       </Routes>
