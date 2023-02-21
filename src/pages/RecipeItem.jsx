@@ -124,7 +124,7 @@ function RecipeItem() {
                     display: "flex",
                     flexDirection: { xs: "row", md: "column" },
                     overflow: "auto",
-                    gap: { xs: 2, md: 3, lg: 4 },
+                    gap: { xs: 2, md: 3 },
                   }}
                 >
                   {data.ingredients.map((name, i) => (

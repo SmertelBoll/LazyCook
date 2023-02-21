@@ -3,19 +3,9 @@ import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { StyledButton, StyledContainer } from "../custom/customComponents";
 
-function SignBlock({ bgImage = "" }) {
+function SignBlock({ bgImage = "", handleSubmit }) {
   const location = useLocation();
   const sign = location.pathname.split("-").pop();
-  console.log(sign);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("login"),
-      password: data.get("password"),
-    });
-  };
 
   return (
     <Box
@@ -49,16 +39,16 @@ function SignBlock({ bgImage = "" }) {
           }}
         >
           <Typography variant="h2" sx={{ color: "text.black" }}>
-            {sign === "in" ? "welcome" : sign === "up" ? "sign in" : ""}
+            {sign === "in" ? "welcome" : sign === "up" ? "sign up" : ""}
           </Typography>
           <TextField
             margin="normal"
             required
             fullWidth
-            id="login"
-            label="User name"
-            name="login"
-            autoComplete="login"
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
             autoFocus
             InputProps={{
               sx: {

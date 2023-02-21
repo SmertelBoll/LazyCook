@@ -42,7 +42,7 @@ function ItemCard({ isButtonAdd = false, data = {} }) {
           sx={{ height: "100%", aspectRatio: "1", borderRadius: 7 }}
           image={data.imageUrl || noImage}
         />
-        <CardContent sx={{ textAlign: "center", pt: 2, pb: 2, px: 0 }}>
+        <CardContent sx={{ textAlign: "center", pt: 2, px: 0 }}>
           <Tooltip
             title={
               <Typography fontSize={16}>{data.name || "no name"}</Typography>
@@ -56,9 +56,10 @@ function ItemCard({ isButtonAdd = false, data = {} }) {
                 overflow: "hidden",
                 WebkitBoxOrient: "vertical",
                 WebkitLineClamp: 2,
+                whiteSpace: "pre-line",
               }}
             >
-              {data.name || "no name"}
+              {`${data.name}\n\n` || "no name"}
             </Typography>
           </Tooltip>
         </CardContent>

@@ -77,7 +77,7 @@ function IngredientCard({ name, measure }) {
                   wordWrap: "break-word",
                   overflow: "hidden",
                   WebkitBoxOrient: "vertical",
-                  WebkitLineClamp: 2,
+                  WebkitLineClamp: 1,
                   color: "text.black",
                 }}
               >
