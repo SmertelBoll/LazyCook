@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./Auth";
 import SignBlock from "./SignBlock";
+import { errorSignInAlert, successSignInAlert } from "../../services/alerts";
 
 const bgImage =
   "https://ubgaioenvbnlnkpgtyml.supabase.co/storage/v1/object/public/profiles/static/sign-in-bg.png";
 
 function SignIn() {
-  const { setToken, signIn } = useAuth();
+  const { token, setToken, signIn } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token) navigate("/");
+  }, []);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -20,10 +25,12 @@ function SignIn() {
         password: formData.get("password"),
       });
       if (error) throw error;
+
       setToken(data);
       navigate(-1);
+      successSignInAlert();
     } catch (error) {
-      alert(error);
+      errorSignInAlert();
     }
   }
 

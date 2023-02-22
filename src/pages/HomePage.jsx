@@ -6,6 +6,8 @@ import {
 } from "../components/custom/customComponents";
 import { NavLink } from "react-router-dom";
 import BlackButton from "../components/custom/BlackButton";
+import { useAuth } from "../components/auth/Auth";
+import { alreadyRegisteredAlert } from "../services/alerts";
 
 const bgImage =
   "https://ubgaioenvbnlnkpgtyml.supabase.co/storage/v1/object/public/profiles/static/bg-home.png";
@@ -16,6 +18,14 @@ function HomePage() {
   const refScroll = React.createRef();
   const scrollNext = () => {
     refScroll.current.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const { token } = useAuth();
+
+  const handleClick = () => {
+    if (token) {
+      alreadyRegisteredAlert();
+    }
   };
 
   return (
@@ -121,8 +131,9 @@ function HomePage() {
               If you want to cook something specific, you can find many recipes
               with us and we will tell you exactly what you need for this.
             </Typography>
-            <NavLink to="/sign-in">
+            <NavLink to={token ? "/" : "/sign-in"}>
               <StyledButton
+                onClick={handleClick}
                 sx={{
                   mt: 4,
                   px: 5,

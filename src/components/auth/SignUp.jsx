@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { errorAuthAlert, verificationAuthAlert } from "../../services/alerts";
 import { useAuth } from "./Auth";
 import SignBlock from "./SignBlock";
 
@@ -8,22 +9,27 @@ const bgImage =
 
 function SignUp() {
   const navigate = useNavigate();
-  const { signUp } = useAuth();
+  const { token, signUp } = useAuth();
+
+  useEffect(() => {
+    if (token) navigate("/");
+  }, []);
 
   async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
 
     try {
-      const { data, error } = await signUp({
+      const { error } = await signUp({
         email: formData.get("email"),
         password: formData.get("password"),
       });
+      if (error) throw error;
 
-      alert("veritify");
-      navigate("/");
+      verificationAuthAlert();
+      navigate("/sign-in");
     } catch (error) {
-      alert(error);
+      errorAuthAlert();
     }
   }
 

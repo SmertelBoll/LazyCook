@@ -3,7 +3,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { StyledButton } from "./customComponents";
 
-function GreyButton({ link = "", ...props }) {
+function GreyButton({ link = null, ...props }) {
   return (
     <NavLink to={link}>
       <StyledButton

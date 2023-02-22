@@ -21,10 +21,6 @@ const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(token);
-  }, [token]);
-
   const value = {
     token,
     setToken,

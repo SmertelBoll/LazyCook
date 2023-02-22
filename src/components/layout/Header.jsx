@@ -8,11 +8,12 @@ import {
   Divider,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import { StyledContainer } from "../custom/customComponents";
 import GreyButton from "../custom/GreyButton";
 import { useAuth } from "../auth/Auth";
+import { SignOutAlert } from "../../services/alerts";
 
 const navigation = [
   { name: "home", link: "/" },
@@ -31,10 +32,15 @@ function Header() {
   };
 
   const { token, setToken, signOut } = useAuth();
-  const handleSignOut = () => {
+
+  const logOutFunc = () => {
     signOut();
     setToken(false);
     localStorage.removeItem("token");
+  };
+
+  const handleLogOut = async () => {
+    SignOutAlert(logOutFunc);
   };
 
   return (
@@ -152,7 +158,7 @@ function Header() {
           }}
         >
           {token ? (
-            <GreyButton onClick={handleSignOut}>log out</GreyButton>
+            <GreyButton onClick={handleLogOut}>log out</GreyButton>
           ) : (
             <GreyButton link="/sign-in">sign in</GreyButton>
           )}
