@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { StyledContainer } from "../custom/customComponents";
 import GreyButton from "../custom/GreyButton";
+import { useAuth } from "../auth/Auth";
 
 const navigation = [
   { name: "home", link: "/" },
@@ -25,9 +26,15 @@ function Header() {
   const handleDrawerOpen = () => {
     setIsDrawer(true);
   };
-
   const handleDrawerClose = () => {
     setIsDrawer(false);
+  };
+
+  const { token, setToken, signOut } = useAuth();
+  const handleSignOut = () => {
+    signOut();
+    setToken(false);
+    localStorage.removeItem("token");
   };
 
   return (
@@ -135,6 +142,7 @@ function Header() {
         </Box>
 
         {/* auth */}
+
         <Box
           variant="p"
           sx={{
@@ -143,7 +151,11 @@ function Header() {
             justifyContent: "flex-end",
           }}
         >
-          <GreyButton link="/sign-in">sign in</GreyButton>
+          {token ? (
+            <GreyButton onClick={handleSignOut}>log out</GreyButton>
+          ) : (
+            <GreyButton link="/sign-in">sign in</GreyButton>
+          )}
         </Box>
       </StyledContainer>
     </Box>
