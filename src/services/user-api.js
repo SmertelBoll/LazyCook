@@ -1,6 +1,6 @@
 import { supabase } from "../supabase/supabaseClient"
 
-export const getRecipesByUser = async({queryKey})=>{
+export const getRecipesIdByUser = async({queryKey}) => {
   const [_, userId] = queryKey
   const { data, error } = await supabase
   .from('userState')
@@ -9,11 +9,21 @@ export const getRecipesByUser = async({queryKey})=>{
   return data[0].recipes
 }
 
-export const updateRecipesByUser = async({queryKey})=>{
-  const [_, userId, recipes] = queryKey  
-  const { data: currentRecipes, error: errrror } = await supabase
+export const updateRecipesIdByUser = async({queryKey}) => {
+  const [_, userId, newRecipesId] = queryKey  
+  const { data: currentRecipesId, error } = await supabase
   .from("userState")
-  .update({ recipes: recipes })
+  .update({ recipes: newRecipesId })
   .eq("user_id", userId);
-  return currentRecipes
+  console.log('new:', newRecipesId);
+  return currentRecipesId
+}
+
+export const getRecipesByUser = async({queryKey})=> {
+  const [_, recipesId] = queryKey
+  const { data, error } = await supabase
+  .from("recipes")
+  .select("*")
+  .in('id', recipesId)
+  return data
 }

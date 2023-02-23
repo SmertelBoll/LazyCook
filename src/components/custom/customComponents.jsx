@@ -1,4 +1,4 @@
-import { Box, Button, Container, styled } from "@mui/material";
+import { Box, Button, Container, Grid, styled } from "@mui/material";
 
 export const StyledButton = styled(Button)(({ theme }) =>
   theme.unstable_sx({
@@ -58,5 +58,13 @@ export function BoxBgBlue({ infinityScroll = true, children }) {
     >
       {children}
     </Box>
+  );
+}
+
+export function GridItem({ sx = {}, children }) {
+  return (
+    <Grid sx={{ p: { xs: 1, sm: 2 } }} item xs={12} sm={6} md={4} lg={3}>
+      {children}
+    </Grid>
   );
 }

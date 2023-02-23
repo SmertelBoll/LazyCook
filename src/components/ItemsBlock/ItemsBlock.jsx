@@ -32,7 +32,7 @@ function ItemsBlock({
 
       <BoxBgBlue>
         {/* Grid */}
-        <StyledContainer paddingY={true} sx={{ position: "relative" }}>
+        <StyledContainer paddingY={true}>
           <Grid
             container
             sx={{

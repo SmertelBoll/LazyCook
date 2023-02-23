@@ -9,6 +9,7 @@ import { useQuery } from "react-query";
 import EmptyData from "../ItemsBlock/EmptyData";
 import { useAuth } from "../auth/Auth";
 import RecipeCard from "./RecipeCard";
+import { GridItem } from "../custom/customComponents";
 
 function Recipes({ recipes, isFetchingNextPage, isFetched, isFetching }) {
   const [isUpdate, setIsUpdate] = useState(false);
@@ -60,22 +61,14 @@ function Recipes({ recipes, isFetchingNextPage, isFetched, isFetching }) {
           {recipes.pages.map((group, i) => (
             <React.Fragment key={i}>
               {group.data.map((data, i) => (
-                <Grid
-                  sx={{ p: { xs: 1, sm: 2 } }}
-                  item
-                  xs={12}
-                  sm={6}
-                  md={4}
-                  lg={3}
-                  key={`${data?.name}`}
-                >
+                <GridItem key={`${data?.name}`}>
                   <RecipeCard
                     recipeItem={data}
                     userRecipesId={previousRecipesId}
                     setIsUpdate={setIsUpdate}
                     setNewRecipesId={setNewRecipesId}
                   />
-                </Grid>
+                </GridItem>
               ))}
             </React.Fragment>
           ))}

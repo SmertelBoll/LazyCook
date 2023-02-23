@@ -1,7 +1,7 @@
 import { Grid, Skeleton } from "@mui/material";
 import React from "react";
 
-function GridSkeleton({ size }) {
+function GridSkeleton({ size = 12 }) {
   return (
     <>
       {Array(size)

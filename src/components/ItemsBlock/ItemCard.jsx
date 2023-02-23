@@ -16,7 +16,7 @@ import { useAuth } from "../auth/Auth";
 const noImage =
   "https://ubgaioenvbnlnkpgtyml.supabase.co/storage/v1/object/public/profiles/static/no-image.png";
 
-function ItemCard({ data = {}, isAdded, handleClick }) {
+function ItemCard({ data, isAdded = false, handleClick = () => {} }) {
   const { token } = useAuth();
 
   return (
