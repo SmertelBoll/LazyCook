@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import ItemCard from "../custom/ItemCard";
 
-function MyRecipeCard({
-  recipeItem,
-  userRecipesId,
-  setNewRecipesId,
+function MyProductCard({
+  productItem,
+  userProductsId,
+  setNewProductsId,
   setIsUpdate,
 }) {
   const [isAdded, setIsAdded] = useState(true);
@@ -12,14 +12,14 @@ function MyRecipeCard({
   const handleClick = () => {
     // додати рецепт до збережених, якщо випадкового його видалив
     if (!isAdded) {
-      setNewRecipesId([...userRecipesId, recipeItem.id]);
+      setNewProductsId([...userProductsId, productItem.id]);
       setIsUpdate(true);
     }
     // видалити рецепт із збережених
     else {
-      setNewRecipesId(
-        userRecipesId.filter(function (e) {
-          return e !== recipeItem.id;
+      setNewProductsId(
+        userProductsId.filter(function (e) {
+          return e !== productItem.id;
         })
       );
       setIsUpdate(true);
@@ -28,13 +28,8 @@ function MyRecipeCard({
   };
 
   return (
-    <ItemCard
-      data={recipeItem}
-      isAdded={isAdded}
-      handleClick={handleClick}
-      isLink={true}
-    />
+    <ItemCard data={productItem} isAdded={isAdded} handleClick={handleClick} />
   );
 }
 
-export default MyRecipeCard;
+export default MyProductCard;

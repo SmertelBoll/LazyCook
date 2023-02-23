@@ -10,6 +10,7 @@ import MyRecipesPage from "./pages/MyRecipesPage";
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import AuthProvider from "./components/auth/Auth";
+import MyProductsPage from "./pages/MyProductsPage";
 
 function App() {
   const queryClient = new QueryClient({
@@ -31,6 +32,7 @@ function App() {
             <Route path="recipes/:id" element={<RecipeItem />} />
             <Route path="recipes/my-recipes" element={<MyRecipesPage />} />
             <Route path="products" element={<ProductsPage />} />
+            <Route path="products/my-products" element={<MyProductsPage />} />
             <Route path="sign-in" element={<SignIn />} />
             <Route path="sign-up" element={<SignUp />} />
           </Route>

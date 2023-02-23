@@ -16,12 +16,17 @@ import { useAuth } from "../auth/Auth";
 const noImage =
   "https://ubgaioenvbnlnkpgtyml.supabase.co/storage/v1/object/public/profiles/static/no-image.png";
 
-function ItemCard({ data, isAdded = false, handleClick = () => {} }) {
+function ItemCard({
+  data,
+  isAdded = false,
+  handleClick = () => {},
+  isLink = false,
+}) {
   const { token } = useAuth();
 
   return (
     <Box sx={{ position: "relative" }}>
-      <NavLink to={`${data.id}`}>
+      <NavLink to={isLink ? `/recipes/${data.id}` : null}>
         <Card
           bgcolor="bg.white"
           sx={{

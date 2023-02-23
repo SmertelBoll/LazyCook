@@ -11,67 +11,67 @@ import {
 import GridSkeleton from "../components/custom/GridSkeleton";
 import EmptyData from "../components/custom/EmptyData";
 import SearchBlock from "../components/custom/SearchBlock";
-import MyRecipeCard from "../components/Recipes/MyRecipeCard";
+import MyProductCard from "../components/Products/MyProductCard";
 import {
-  getRecipesByUser,
-  getRecipesIdByUser,
-  updateRecipesIdByUser,
+  getProductsByUser,
+  getProductsIdByUser,
+  updateProductsIdByUser,
 } from "../services/user-api";
 
 const emptyData = {
-  title: "Unfortunately, we could not find any recipes.",
-  text: "Try adding a recipe",
+  title: "Unfortunately, we could not find any products.",
+  text: "Try adding a product",
 };
 
 const buttonsSearch = [
   {
-    name: "all recipes",
-    link: "/recipes",
+    name: "all products",
+    link: "/products",
   },
   {
-    name: "my recipes",
-    link: "/recipes/my-recipes",
+    name: "my products",
+    link: "/products/my-products",
   },
 ];
 
-function MyRecipesPage() {
+function MyProductsPage() {
   const [isUpdate, setIsUpdate] = useState(false);
-  const [previousRecipesId, setPreviousRecipesId] = useState([]);
-  const [newRecipesId, setNewRecipesId] = useState([]);
+  const [previousProductsId, setPreviousProductsId] = useState([]);
+  const [newProductsId, setNewProductsId] = useState([]);
 
   const { isToken, token } = useAuth();
 
   // загрузка id рецептів конкретного користувача
   const {
-    data: userRecipesId,
-    isFetching: isFetchingUserRecipesId,
-    isFetched: isFetchedUserRecipesId,
+    data: userProductsId,
+    isFetching: isFetchingUserProductsId,
+    isFetched: isFetchedUserProductsId,
   } = useQuery({
-    queryKey: ["getRecipesIdByUser", token?.user?.id],
-    queryFn: getRecipesIdByUser,
+    queryKey: ["getProductsIdByUser", token?.user?.id],
+    queryFn: getProductsIdByUser,
     enabled: isToken,
     staleTime: 0,
   });
 
   // зберігаємо актуальні рецепти користувача
   useEffect(() => {
-    if (isFetchedUserRecipesId) {
-      setPreviousRecipesId(userRecipesId);
+    if (isFetchedUserProductsId) {
+      setPreviousProductsId(userProductsId);
     }
-  }, [isFetchedUserRecipesId, isFetchingUserRecipesId]);
+  }, [isFetchedUserProductsId, isFetchingUserProductsId]);
 
   // загрузка списку об'єктів рецепту
-  const { data: userRecipes, isFetched: isFetchedUserRecipes } = useQuery({
-    queryKey: ["getRecipesByUser", userRecipesId],
-    queryFn: getRecipesByUser,
-    enabled: isFetchedUserRecipesId,
+  const { data: userProducts, isFetched: isFetchedUserProducts } = useQuery({
+    queryKey: ["getProductsByUser", userProductsId],
+    queryFn: getProductsByUser,
+    enabled: isFetchedUserProductsId,
     staleTime: 0,
   });
 
   // видалення рецепту із збережених
   const { isSuccess: isSuccessUpdate } = useQuery({
-    queryKey: ["updateRecipesIdByUser", token?.user?.id, newRecipesId],
-    queryFn: updateRecipesIdByUser,
+    queryKey: ["updateProductsIdByUser", token?.user?.id, newProductsId],
+    queryFn: updateProductsIdByUser,
     enabled: isUpdate,
     staleTime: 0,
   });
@@ -80,7 +80,7 @@ function MyRecipesPage() {
   useEffect(() => {
     if (isSuccessUpdate) {
       setIsUpdate(false);
-      setPreviousRecipesId(newRecipesId);
+      setPreviousProductsId(newProductsId);
     }
   }, [isSuccessUpdate]);
 
@@ -99,20 +99,20 @@ function MyRecipesPage() {
               minHeight: "100%",
             }}
           >
-            {isFetchedUserRecipes && userRecipes[0] ? (
+            {isFetchedUserProducts && userProducts[0] ? (
               <>
-                {userRecipes.map((data) => (
+                {userProducts.map((data) => (
                   <GridItem key={`${data?.name}`}>
-                    <MyRecipeCard
-                      recipeItem={data}
-                      userRecipesId={previousRecipesId}
-                      setNewRecipesId={setNewRecipesId}
+                    <MyProductCard
+                      productItem={data}
+                      userProductsId={previousProductsId}
+                      setNewProductsId={setNewProductsId}
                       setIsUpdate={setIsUpdate}
                     />
                   </GridItem>
                 ))}
               </>
-            ) : isFetchedUserRecipes ? (
+            ) : isFetchedUserProducts ? (
               <EmptyData title={emptyData.title} text={emptyData.text} />
             ) : (
               <GridSkeleton size={12} />
@@ -124,4 +124,4 @@ function MyRecipesPage() {
   );
 }
 
-export default MyRecipesPage;
+export default MyProductsPage;

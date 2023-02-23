@@ -1,4 +1,3 @@
-import { Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import GridSkeleton from "../custom/GridSkeleton";
 import {
@@ -6,10 +5,15 @@ import {
   updateRecipesIdByUser,
 } from "../../services/user-api";
 import { useQuery } from "react-query";
-import EmptyData from "../ItemsBlock/EmptyData";
+import EmptyData from "../custom/EmptyData";
 import { useAuth } from "../auth/Auth";
 import RecipeCard from "./RecipeCard";
 import { GridItem } from "../custom/customComponents";
+
+const emptyData = {
+  title: "Unfortunately, we could not find any recipes.",
+  text: "Try again later",
+};
 
 function Recipes({ recipes, isFetchingNextPage, isFetched, isFetching }) {
   const [isUpdate, setIsUpdate] = useState(false);
@@ -74,7 +78,7 @@ function Recipes({ recipes, isFetchingNextPage, isFetched, isFetching }) {
           ))}
         </>
       ) : (
-        <EmptyData isButton={true} />
+        <EmptyData title={emptyData.title} text={emptyData.text} />
       )}
     </>
   );

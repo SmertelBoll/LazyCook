@@ -2,9 +2,9 @@ import { Box, InputAdornment, TextField } from "@mui/material";
 import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
-import GreyButton from "../custom/GreyButton";
+import GreyButton from "./GreyButton";
 
-function SearchBlock({ searchText, onChangeInput }) {
+function SearchBlock({ searchText, onChangeInput, buttons = [] }) {
   return (
     <Box
       sx={{
@@ -57,8 +57,13 @@ function SearchBlock({ searchText, onChangeInput }) {
           order: { xs: 1, sm: 2 },
         }}
       >
-        <GreyButton link="/recipes">all recipes</GreyButton>
-        <GreyButton link="/recipes/my-recipes">my recipes</GreyButton>
+        {buttons.map((obj) => (
+          <GreyButton link={obj.link} key={obj.link}>
+            {obj.name}
+          </GreyButton>
+        ))}
+        {/* <GreyButton link="/recipes">all recipes</GreyButton>
+        <GreyButton link="/recipes/my-recipes">my recipes</GreyButton> */}
       </Box>
     </Box>
   );

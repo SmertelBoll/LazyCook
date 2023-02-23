@@ -2,7 +2,26 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useInfiniteQuery } from "react-query";
 import { getAllRecipes, searchRecipes } from "../services/recipes-api";
 import debounce from "lodash.debounce";
-import ItemsBlock from "../components/ItemsBlock/ItemsBlock";
+import {
+  BoxBgBlue,
+  BoxBgWhite,
+  StyledContainer,
+} from "../components/custom/customComponents";
+import SearchBlock from "../components/custom/SearchBlock";
+import { Box, CircularProgress, Grid, Grow, IconButton } from "@mui/material";
+import Recipes from "../components/Recipes/Recipes";
+import NorthIcon from "@mui/icons-material/North";
+
+const buttonsSearch = [
+  {
+    name: "all recipes",
+    link: "/recipes",
+  },
+  {
+    name: "my recipes",
+    link: "/recipes/my-recipes",
+  },
+];
 
 function RecipesPage() {
   const [scroll, setScroll] = useState(0);
@@ -89,21 +108,79 @@ function RecipesPage() {
   });
 
   return (
-    <ItemsBlock
-      searchText={searchText}
-      onChangeInput={onChangeInput}
-      scroll={scroll}
-      scrollToTop={scrollToTop}
-      searchValue={searchValue}
-      isFetchingAll={isFetchingAll}
-      isFetchedAll={isFetchedAll}
-      allRecipes={allRecipes}
-      isFetchingNextPageAll={isFetchingNextPageAll}
-      isFetchingByName={isFetchingByName}
-      isFetchedByName={isFetchedByName}
-      recipesByName={recipesByName}
-      isFetchingNextPageByName={isFetchingNextPageByName}
-    />
+    <BoxBgWhite>
+      {/* searchBlock */}
+      <StyledContainer paddingY={true}>
+        <SearchBlock
+          searchText={searchText}
+          onChangeInput={onChangeInput}
+          buttons={buttonsSearch}
+        />
+      </StyledContainer>
+
+      <BoxBgBlue>
+        {/* Grid */}
+        <StyledContainer paddingY={true}>
+          <Grid
+            container
+            sx={{
+              width: "100%",
+              minHeight: "100%",
+            }}
+          >
+            {searchValue ? (
+              <Recipes
+                recipes={recipesByName}
+                isFetchingNextPage={isFetchingNextPageByName}
+                isFetched={isFetchedByName}
+                isFetching={isFetchingByName}
+              />
+            ) : (
+              <Recipes
+                recipes={allRecipes}
+                isFetchingNextPage={isFetchingNextPageAll}
+                isFetched={isFetchedAll}
+                isFetching={isFetchingAll}
+              />
+            )}
+          </Grid>
+
+          {/* loading circle */}
+          {(isFetchingNextPageAll || isFetchingNextPageByName) && (
+            <Box sx={{ display: "flex", justifyContent: "center", pt: 5 }}>
+              <CircularProgress sx={{ color: "text.grey" }} />
+            </Box>
+          )}
+        </StyledContainer>
+
+        {/* scroll to top */}
+        <StyledContainer
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
+          <Grow in={scroll > 400} timeout={500}>
+            <IconButton
+              onClick={scrollToTop}
+              sx={{
+                borderRadius: 5,
+                border: "4px solid #000000",
+                color: "text.black",
+                position: "fixed",
+                bottom: { xs: 65, sm: 80, md: 90, lg: 100 },
+                "&:hover": {
+                  color: "text.white",
+                  bgcolor: "buttonbg.black",
+                },
+              }}
+            >
+              <NorthIcon fontSize="large" />
+            </IconButton>
+          </Grow>
+        </StyledContainer>
+      </BoxBgBlue>
+    </BoxBgWhite>
   );
 }
 

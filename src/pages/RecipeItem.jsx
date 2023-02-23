@@ -1,7 +1,7 @@
 import { Box, CircularProgress, Tooltip, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import BlackButton from "../components/custom/BlackButton";
 import {
   BoxBgWhite,
@@ -16,6 +16,7 @@ const noImage =
 
 function RecipeItem() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { data, isFetched } = useQuery({
     queryKey: ["getRecipeById", id],
     queryFn: getRecipeById,
@@ -25,13 +26,17 @@ function RecipeItem() {
     window.scrollTo(0, 0);
   }, []);
 
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   return (
     <BoxBgWhite paddingTop={true} infinityScroll={false}>
       <BoxBgBlue infinityScroll={false}>
         <StyledContainer paddingY={true}>
           {/* back button */}
           <Box sx={{ display: { xs: "none", md: "flex" }, mb: 4 }}>
-            <BlackButton backArrow={true} link="/recipes">
+            <BlackButton backArrow={true} onClick={handleBack}>
               return back
             </BlackButton>
           </Box>
@@ -108,7 +113,7 @@ function RecipeItem() {
                 {/* back button */}
                 <BlackButton
                   backArrow={true}
-                  link="/recipes"
+                  onClick={handleBack}
                   sx={{ display: { xs: "flex", md: "none", width: "100%" } }}
                 >
                   return back
