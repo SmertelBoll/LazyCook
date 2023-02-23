@@ -1,55 +1,51 @@
-import { Box, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import GridSkeleton from "../custom/GridSkeleton";
-import { getRecipesByUser, updateRecipesByUser } from "../../services/user-api";
+import {
+  getRecipesIdByUser,
+  updateRecipesIdByUser,
+} from "../../services/user-api";
 import { useQuery } from "react-query";
-import ItemCard from "../ItemsBlock/ItemCard";
 import EmptyData from "../ItemsBlock/EmptyData";
 import { useAuth } from "../auth/Auth";
 import RecipeCard from "./RecipeCard";
 
 function Recipes({ recipes, isFetchingNextPage, isFetched, isFetching }) {
   const [isUpdate, setIsUpdate] = useState(false);
-  const [previousRecipes, setPreviousRecipes] = useState([]);
-  const [newRecipes, setNewRecipes] = useState([]);
-  const [isToken, setIsToken] = useState(false);
+  const [previousRecipesId, setPreviousRecipesId] = useState([]);
+  const [newRecipesId, setNewRecipesId] = useState([]);
 
-  const { token } = useAuth();
-
-  useEffect(() => {
-    if (token) setIsToken(true);
-    else setIsToken(false);
-  }, [token]);
+  const { token, isToken } = useAuth();
 
   const {
-    data: userRecipes,
-    isFetching: isFetchingUserRecipes,
-    isFetched: isFetchedUserRecipes,
+    data: userRecipesId,
+    isFetching: isFetchingUserRecipesId,
+    isFetched: isFetcheduserRecipesId,
   } = useQuery({
-    queryKey: ["getRecipesByUser", token?.user?.id],
-    queryFn: getRecipesByUser,
+    queryKey: ["getRecipesIdByUser", token?.user?.id],
+    queryFn: getRecipesIdByUser,
     enabled: isToken,
     staleTime: 0,
   });
 
   useEffect(() => {
-    if (isFetchedUserRecipes) {
-      setPreviousRecipes(userRecipes); // зберігаємо актуальні рецепти користувача
+    if (isFetcheduserRecipesId) {
+      setPreviousRecipesId(userRecipesId); // зберігаємо актуальні рецепти користувача
     }
-  }, [isFetchedUserRecipes, isFetchingUserRecipes]);
+  }, [isFetcheduserRecipesId, isFetchingUserRecipesId]);
+  // не впевнений як, але isFetchingUserRecipesId покращує обновлення кнопок
 
   const { isSuccess: isSuccessUpdate } = useQuery({
-    queryKey: ["updateRecipesByUser", token?.user?.id, newRecipes],
-    queryFn: updateRecipesByUser,
+    queryKey: ["updateRecipesIdByUser", token?.user?.id, newRecipesId],
+    queryFn: updateRecipesIdByUser,
     enabled: isUpdate,
     staleTime: 0,
   });
 
   useEffect(() => {
     if (isSuccessUpdate) {
-      // setIsAdded(!isAdded);
       setIsUpdate(false);
-      setPreviousRecipes(newRecipes);
+      setPreviousRecipesId(newRecipesId);
     }
   }, [isSuccessUpdate]);
 
@@ -75,9 +71,9 @@ function Recipes({ recipes, isFetchingNextPage, isFetched, isFetching }) {
                 >
                   <RecipeCard
                     recipeItem={data}
-                    userRecipes={previousRecipes}
+                    userRecipesId={previousRecipesId}
                     setIsUpdate={setIsUpdate}
-                    setNewRecipes={setNewRecipes}
+                    setNewRecipesId={setNewRecipesId}
                   />
                 </Grid>
               ))}

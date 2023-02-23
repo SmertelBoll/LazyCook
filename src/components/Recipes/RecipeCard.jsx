@@ -1,25 +1,32 @@
 import React, { useEffect, useState } from "react";
 import ItemCard from "../ItemsBlock/ItemCard";
 
-function RecipeCard({ recipeItem, userRecipes, setNewRecipes, setIsUpdate }) {
+function RecipeCard({
+  recipeItem,
+  userRecipesId,
+  setNewRecipesId,
+  setIsUpdate,
+}) {
   const [isAdded, setIsAdded] = useState(false);
 
   useEffect(() => {
-    if (userRecipes.includes(recipeItem.id)) {
+    if (userRecipesId.includes(recipeItem.id)) {
       setIsAdded(true); // якщо якийсь рецепт у користувача є, то відображуємо його відповідно
+    } else {
+      setIsAdded(false);
     }
-  }, [userRecipes]);
+  }, [userRecipesId]);
 
   const handleClick = () => {
     // додати рецепт до збережених
     if (!isAdded) {
-      setNewRecipes([...userRecipes, recipeItem.id]);
+      setNewRecipesId([...userRecipesId, recipeItem.id]);
       setIsUpdate(true);
     }
     // видалити рецепт із збережених
     else {
-      setNewRecipes(
-        userRecipes.filter(function (e) {
+      setNewRecipesId(
+        userRecipesId.filter(function (e) {
           return e !== recipeItem.id;
         })
       );
