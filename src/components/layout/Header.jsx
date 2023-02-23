@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import React, { useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { StyledContainer } from "../custom/customComponents";
 import GreyButton from "../custom/GreyButton";
 import { useAuth } from "../auth/Auth";
@@ -32,11 +32,13 @@ function Header() {
   };
 
   const { token, setToken, signOut } = useAuth();
+  const navigate = useNavigate();
 
   const logOutFunc = () => {
     signOut();
     setToken(false);
     localStorage.removeItem("token");
+    navigate("/");
   };
 
   const handleLogOut = async () => {

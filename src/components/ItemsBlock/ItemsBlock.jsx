@@ -6,6 +6,7 @@ import { BoxBgWhite, BoxBgBlue } from "../custom/customComponents";
 
 import SearchBlock from "./SearchBlock";
 import DataMap from "./DataMap";
+import Recipes from "../Recipes/Recipes";
 
 function ItemsBlock({
   searchText,
@@ -40,14 +41,14 @@ function ItemsBlock({
             }}
           >
             {searchValue ? (
-              <DataMap
+              <Recipes
                 recipes={recipesByName}
                 isFetchingNextPage={isFetchingNextPageByName}
                 isFetched={isFetchedByName}
                 isFetching={isFetchingByName}
               />
             ) : (
-              <DataMap
+              <Recipes
                 recipes={allRecipes}
                 isFetchingNextPage={isFetchingNextPageAll}
                 isFetched={isFetchedAll}
