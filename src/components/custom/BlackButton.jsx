@@ -3,15 +3,10 @@ import React from "react";
 import { StyledButton } from "./customComponents";
 import WestIcon from "@mui/icons-material/West";
 
-function BlackButton({
-  onClick = () => {},
-  backArrow = false,
-  sx = {},
-  children,
-}) {
+function BlackButton({ backArrow = false, sx = {}, children, ...props }) {
   return (
     <StyledButton
-      onClick={onClick}
+      {...props}
       sx={{
         px: 4,
         border: {

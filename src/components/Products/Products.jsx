@@ -20,7 +20,7 @@ function Products({ products, isFetchingNextPage, isFetched, isFetching }) {
   const [previousProductsId, setPreviousProductsId] = useState([]);
   const [newProductsId, setNewProductsId] = useState([]);
 
-  const { token, isToken } = useAuth();
+  const { token } = useAuth();
 
   const {
     data: userProductsId,
@@ -29,7 +29,7 @@ function Products({ products, isFetchingNextPage, isFetched, isFetching }) {
   } = useQuery({
     queryKey: ["getProductsIdByUser", token?.user?.id],
     queryFn: getProductsIdByUser,
-    enabled: isToken,
+    enabled: Boolean(token),
     staleTime: 0,
   });
 

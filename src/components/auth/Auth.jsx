@@ -9,7 +9,6 @@ export const useAuth = () => {
 
 const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(false);
-  const [isToken, setIsToken] = useState(false);
 
   if (token) {
     localStorage.setItem("token", JSON.stringify(token));
@@ -19,13 +18,11 @@ const AuthProvider = ({ children }) => {
     if (localStorage.getItem("token")) {
       let data = JSON.parse(localStorage.getItem("token"));
       setToken(data);
-      setIsToken(true);
     }
   }, []);
 
   const value = {
     token,
-    isToken,
     setToken,
     signUp: (data) => supabase.auth.signUp(data),
     signIn: (data) => supabase.auth.signInWithPassword(data),

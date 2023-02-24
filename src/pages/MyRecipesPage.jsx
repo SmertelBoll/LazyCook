@@ -36,7 +36,7 @@ function MyRecipesPage() {
   const [searchText, setSearchText] = useState(""); // відповідає за відображення тексту в input
   const [searchValue, setSearchValue] = useState(""); // загружається кінцеве значення після debounce для запроса
 
-  const { isToken, token } = useAuth();
+  const { token } = useAuth();
 
   // робота з пошуком
   const updateSearchValue = useCallback(
@@ -64,7 +64,7 @@ function MyRecipesPage() {
   } = useQuery({
     queryKey: ["getRecipesIdByUser", token?.user?.id],
     queryFn: getRecipesIdByUser,
-    enabled: isToken,
+    enabled: Boolean(token),
     staleTime: 0,
   });
 

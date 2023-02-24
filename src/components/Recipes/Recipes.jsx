@@ -20,7 +20,7 @@ function Recipes({ recipes, isFetchingNextPage, isFetched, isFetching }) {
   const [previousRecipesId, setPreviousRecipesId] = useState([]);
   const [newRecipesId, setNewRecipesId] = useState([]);
 
-  const { token, isToken } = useAuth();
+  const { token } = useAuth();
 
   const {
     data: userRecipesId,
@@ -29,7 +29,7 @@ function Recipes({ recipes, isFetchingNextPage, isFetched, isFetching }) {
   } = useQuery({
     queryKey: ["getRecipesIdByUser", token?.user?.id],
     queryFn: getRecipesIdByUser,
-    enabled: isToken,
+    enabled: Boolean(token),
     staleTime: 0,
   });
 

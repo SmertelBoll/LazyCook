@@ -2,14 +2,14 @@ import { Box, CircularProgress, Tooltip, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import BlackButton from "../components/custom/BlackButton";
+import BlackButton from "../custom/BlackButton";
 import {
   BoxBgWhite,
   BoxBgBlue,
   StyledContainer,
-} from "../components/custom/customComponents";
-import IngredientCard from "../components/RecipeItem/IngredientCard";
-import { getRecipeById } from "../services/recipes-api";
+} from "../custom/customComponents";
+import IngredientCard from "./IngredientCard";
+import { getRecipeById } from "../../services/recipes-api";
 
 const noImage =
   "https://ubgaioenvbnlnkpgtyml.supabase.co/storage/v1/object/public/profiles/static/no-image.png";
@@ -35,11 +35,13 @@ function RecipeItem() {
       <BoxBgBlue infinityScroll={false}>
         <StyledContainer paddingY={true}>
           {/* back button */}
-          <Box sx={{ display: { xs: "none", md: "flex" }, mb: 4 }}>
-            <BlackButton backArrow={true} onClick={handleBack}>
-              return back
-            </BlackButton>
-          </Box>
+          <BlackButton
+            backArrow={true}
+            onClick={handleBack}
+            sx={{ display: { xs: "none", sm: "flex" }, mb: 4 }}
+          >
+            return back
+          </BlackButton>
 
           {isFetched ? (
             <>
@@ -114,7 +116,7 @@ function RecipeItem() {
                 <BlackButton
                   backArrow={true}
                   onClick={handleBack}
-                  sx={{ display: { xs: "flex", md: "none", width: "100%" } }}
+                  sx={{ display: { xs: "flex", sm: "none", width: "100%" } }}
                 >
                   return back
                 </BlackButton>

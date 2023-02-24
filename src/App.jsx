@@ -5,12 +5,13 @@ import Layout from "./components/layout/layout";
 import HomePage from "./pages/HomePage";
 import ProductsPage from "./pages/ProductsPage";
 import RecipesPage from "./pages/RecipesPage";
-import RecipeItem from "./pages/RecipeItem";
 import MyRecipesPage from "./pages/MyRecipesPage";
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import AuthProvider from "./components/auth/Auth";
 import MyProductsPage from "./pages/MyProductsPage";
+import RecipeItem from "./components/RecipeItem/RecipeItem";
+import Profile from "./components/auth/Profile";
 
 function App() {
   const queryClient = new QueryClient({
@@ -35,6 +36,7 @@ function App() {
             <Route path="products/my-products" element={<MyProductsPage />} />
             <Route path="sign-in" element={<SignIn />} />
             <Route path="sign-up" element={<SignUp />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
         </Routes>
       </AuthProvider>

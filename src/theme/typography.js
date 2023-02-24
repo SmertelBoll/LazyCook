@@ -36,6 +36,14 @@ const typography = {
     fontWeight: 400,
     textTransform: "unset",
   },
+  menuItem: {                                  // header button, ingredient text
+    fontSize: smallFormula(16, 20),
+    '@media (min-width:767px)': {
+      fontSize: largeFormula(16, 20),
+    },
+    fontWeight: 400,
+    textTransform: "unset",
+  },
   logo: {
     fontSize: smallFormula(24, 44),
     '@media (min-width:767px)': {

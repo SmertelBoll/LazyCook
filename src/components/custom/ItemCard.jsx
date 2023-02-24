@@ -71,7 +71,10 @@ function ItemCard({
             top: { xs: -10, sm: -20 },
             right: { xs: -10, sm: -20 },
 
-            border: "4px solid #000000",
+            border: {
+              xs: "3px solid #000000",
+              md: "4px solid #000000",
+            },
             borderRadius: 4,
             color: isAdded ? "text.white" : "text.black",
             bgcolor: isAdded ? "buttonbg.black" : "buttonbg.whiteBlue",

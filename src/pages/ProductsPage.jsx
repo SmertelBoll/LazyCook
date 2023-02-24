@@ -165,7 +165,10 @@ function ProductsPage() {
               onClick={scrollToTop}
               sx={{
                 borderRadius: 5,
-                border: "4px solid #000000",
+                border: {
+                  xs: "3px solid #000000",
+                  md: "4px solid #000000",
+                },
                 color: "text.black",
                 position: "fixed",
                 bottom: { xs: 65, sm: 80, md: 90, lg: 100 },

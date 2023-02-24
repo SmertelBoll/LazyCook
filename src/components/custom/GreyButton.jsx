@@ -3,11 +3,12 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { StyledButton } from "./customComponents";
 
-function GreyButton({ link = null, ...props }) {
+function GreyButton({ link = null, sx = {}, ...props }) {
   return (
     <NavLink to={link}>
       <StyledButton
         onClick={props?.onClick}
+        {...props}
         sx={{
           color: "text.grey",
           borderRadius: 3,
@@ -17,9 +18,12 @@ function GreyButton({ link = null, ...props }) {
             color: "text.white",
             bgcolor: "buttonbg.grey",
           },
+          ...sx,
         }}
       >
-        <Typography variant="p">{props.children}</Typography>
+        <Typography variant="p" sx={{ display: "flex", alignItems: "center" }}>
+          {props.children}
+        </Typography>
       </StyledButton>
     </NavLink>
   );

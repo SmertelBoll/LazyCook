@@ -6,11 +6,14 @@ import {
   List,
   ListItemButton,
   Divider,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { StyledContainer } from "../custom/customComponents";
+import { StyledButton, StyledContainer } from "../custom/customComponents";
 import GreyButton from "../custom/GreyButton";
 import { useAuth } from "../auth/Auth";
 import { SignOutAlert } from "../../services/alerts";
@@ -23,6 +26,7 @@ const navigation = [
 
 function Header() {
   const [isDrawer, setIsDrawer] = useState(false);
+  const [menuItem, setMenuItem] = useState(null);
 
   const handleDrawerOpen = () => {
     setIsDrawer(true);
@@ -31,6 +35,7 @@ function Header() {
     setIsDrawer(false);
   };
 
+  // вихід з акаунта
   const { token, setToken, signOut } = useAuth();
   const navigate = useNavigate();
 
@@ -40,9 +45,18 @@ function Header() {
     localStorage.removeItem("token");
     navigate("/");
   };
-
   const handleLogOut = async () => {
+    handleCloseMenu();
     SignOutAlert(logOutFunc);
+  };
+
+  // меню
+  const openMenu = Boolean(menuItem);
+  const handleClickMenu = (event) => {
+    setMenuItem(event.currentTarget);
+  };
+  const handleCloseMenu = () => {
+    setMenuItem(null);
   };
 
   return (
@@ -160,7 +174,57 @@ function Header() {
           }}
         >
           {token ? (
-            <GreyButton onClick={handleLogOut}>log out</GreyButton>
+            <Box>
+              <GreyButton
+                id="basic-button"
+                aria-controls={openMenu ? "basic-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={openMenu ? "true" : undefined}
+                onClick={handleClickMenu}
+              >
+                {token.user.email.split("@")[0]}
+                <AccountCircleIcon sx={{ ml: 1 }} />
+              </GreyButton>
+
+              <Menu
+                id="basic-menu"
+                anchorEl={menuItem}
+                open={openMenu}
+                onClose={handleCloseMenu}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+              >
+                <MenuItem
+                  onClick={handleCloseMenu}
+                  sx={{
+                    fontSize: (theme) => theme.typography.menuItem.fontSize,
+                    fontWeight: (theme) => theme.typography.menuItem.fontWeight,
+                  }}
+                >
+                  <NavLink to="/profile" style={{ color: "inherit" }}>
+                    Profile
+                  </NavLink>
+                </MenuItem>
+                <MenuItem
+                  sx={{
+                    fontSize: (theme) => theme.typography.menuItem.fontSize,
+                    fontWeight: (theme) => theme.typography.menuItem.fontWeight,
+                  }}
+                  onClick={handleLogOut}
+                >
+                  Log out
+                </MenuItem>
+              </Menu>
+            </Box>
           ) : (
             <GreyButton link="/sign-in">sign in</GreyButton>
           )}
