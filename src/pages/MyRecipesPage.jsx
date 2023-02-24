@@ -8,6 +8,10 @@ import {
   StyledContainer,
 } from "../components/custom/customComponents";
 import SearchBlock from "../components/custom/SearchBlock";
+<<<<<<< HEAD
+=======
+import MyRecipeCard from "../components/MyRecipes/MyRecipeCard";
+>>>>>>> 3b8d210f00227847a248faedde128a7dc266950f
 import {
   getRecipesByUser,
   getRecipesIdByUser,
