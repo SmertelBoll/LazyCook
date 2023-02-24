@@ -1,27 +1,21 @@
 import { Grid } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useAuth } from "../components/auth/Auth";
 import {
   BoxBgBlue,
   BoxBgWhite,
-  GridItem,
   StyledContainer,
 } from "../components/custom/customComponents";
-import GridSkeleton from "../components/custom/GridSkeleton";
-import EmptyData from "../components/custom/EmptyData";
 import SearchBlock from "../components/custom/SearchBlock";
-import MyProductCard from "../components/Products/MyProductCard";
 import {
   getProductsByUser,
   getProductsIdByUser,
+  searchProductsByUser,
   updateProductsIdByUser,
 } from "../services/user-api";
-
-const emptyData = {
-  title: "Unfortunately, we could not find any products.",
-  text: "Try adding a product",
-};
+import debounce from "lodash.debounce";
+import MyProducts from "../components/MyProducts/MyProducts";
 
 const buttonsSearch = [
   {
@@ -39,9 +33,30 @@ function MyProductsPage() {
   const [previousProductsId, setPreviousProductsId] = useState([]);
   const [newProductsId, setNewProductsId] = useState([]);
 
+  const [searchText, setSearchText] = useState(""); // відповідає за відображення тексту в input
+  const [searchValue, setSearchValue] = useState(""); // загружається кінцеве значення після debounce для запроса
+
   const { isToken, token } = useAuth();
 
-  // загрузка id рецептів конкретного користувача
+  // робота з пошуком
+  const updateSearchValue = useCallback(
+    debounce((str) => {
+      setSearchValue(str);
+    }, 500),
+    []
+  );
+  const onChangeInput = (e, empty = false) => {
+    if (empty) {
+      // затираємо значення
+      setSearchText("");
+      updateSearchValue("");
+    } else {
+      setSearchText(e.target.value);
+      updateSearchValue(e.target.value);
+    }
+  };
+
+  // загрузка id продуктів конкретного користувача
   const {
     data: userProductsId,
     isFetching: isFetchingUserProductsId,
@@ -53,14 +68,14 @@ function MyProductsPage() {
     staleTime: 0,
   });
 
-  // зберігаємо актуальні рецепти користувача
+  // зберігаємо актуальні продукти користувача
   useEffect(() => {
     if (isFetchedUserProductsId) {
       setPreviousProductsId(userProductsId);
     }
   }, [isFetchedUserProductsId, isFetchingUserProductsId]);
 
-  // загрузка списку об'єктів рецепту
+  // загрузка списку продуктів
   const { data: userProducts, isFetched: isFetchedUserProducts } = useQuery({
     queryKey: ["getProductsByUser", userProductsId],
     queryFn: getProductsByUser,
@@ -68,7 +83,16 @@ function MyProductsPage() {
     staleTime: 0,
   });
 
-  // видалення рецепту із збережених
+  // загрузка продуктів по пошуку
+  const { data: searchUserProducts, isFetched: isFetchedSearchUserProducts } =
+    useQuery({
+      queryKey: ["searchProductsByUser", userProductsId, `${searchValue}`],
+      queryFn: searchProductsByUser,
+      enabled: isFetchedUserProductsId,
+      staleTime: 0,
+    });
+
+  // видалення продукта із збережених
   const { isSuccess: isSuccessUpdate } = useQuery({
     queryKey: ["updateProductsIdByUser", token?.user?.id, newProductsId],
     queryFn: updateProductsIdByUser,
@@ -76,7 +100,7 @@ function MyProductsPage() {
     staleTime: 0,
   });
 
-  // після видалення оновлюємо актуальні рецепти користувача
+  // після видалення оновлюємо актуальні продукти користувача
   useEffect(() => {
     if (isSuccessUpdate) {
       setIsUpdate(false);
@@ -85,11 +109,15 @@ function MyProductsPage() {
   }, [isSuccessUpdate]);
 
   return (
-    <BoxBgWhite>
+    <BoxBgWhite infinityScroll={false}>
       <StyledContainer paddingY={true}>
-        <SearchBlock buttons={buttonsSearch} />
+        <SearchBlock
+          searchText={searchText}
+          onChangeInput={onChangeInput}
+          buttons={buttonsSearch}
+        />
       </StyledContainer>
-      <BoxBgBlue>
+      <BoxBgBlue infinityScroll={false}>
         <StyledContainer paddingY={true}>
           {/* Grid */}
           <Grid
@@ -99,24 +127,31 @@ function MyProductsPage() {
               minHeight: "100%",
             }}
           >
-            {isFetchedUserProducts && userProducts[0] ? (
-              <>
-                {userProducts.map((data) => (
-                  <GridItem key={`${data?.name}`}>
-                    <MyProductCard
-                      productItem={data}
-                      userProductsId={previousProductsId}
-                      setNewProductsId={setNewProductsId}
-                      setIsUpdate={setIsUpdate}
-                    />
-                  </GridItem>
-                ))}
-              </>
+            {/* {isFetchedUserProducts ? ( //&& userProducts[0]
+              <> */}
+            {searchValue ? (
+              <MyProducts
+                products={searchUserProducts}
+                isFetched={isFetchedUserProducts}
+                userProductsId={previousProductsId}
+                setNewProductsId={setNewProductsId}
+                setIsUpdate={setIsUpdate}
+              />
+            ) : (
+              <MyProducts
+                products={userProducts}
+                isFetched={isFetchedSearchUserProducts}
+                userProductsId={previousProductsId}
+                setNewProductsId={setNewProductsId}
+                setIsUpdate={setIsUpdate}
+              />
+            )}
+            {/* </>
             ) : isFetchedUserProducts ? (
               <EmptyData title={emptyData.title} text={emptyData.text} />
             ) : (
               <GridSkeleton size={12} />
-            )}
+            )} */}
           </Grid>
         </StyledContainer>
       </BoxBgBlue>

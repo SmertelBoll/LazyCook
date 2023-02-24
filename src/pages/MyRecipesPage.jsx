@@ -1,27 +1,21 @@
 import { Grid } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useAuth } from "../components/auth/Auth";
 import {
   BoxBgBlue,
   BoxBgWhite,
-  GridItem,
   StyledContainer,
 } from "../components/custom/customComponents";
-import GridSkeleton from "../components/custom/GridSkeleton";
-import EmptyData from "../components/custom/EmptyData";
 import SearchBlock from "../components/custom/SearchBlock";
-import MyRecipeCard from "../components/Recipes/MyRecipeCard";
 import {
   getRecipesByUser,
   getRecipesIdByUser,
+  searchRecipesByUser,
   updateRecipesIdByUser,
 } from "../services/user-api";
-
-const emptyData = {
-  title: "Unfortunately, we could not find any recipes.",
-  text: "Try adding a recipe",
-};
+import debounce from "lodash.debounce";
+import MyRecipes from "../components/MyRecipes/MyRecipes";
 
 const buttonsSearch = [
   {
@@ -39,7 +33,27 @@ function MyRecipesPage() {
   const [previousRecipesId, setPreviousRecipesId] = useState([]);
   const [newRecipesId, setNewRecipesId] = useState([]);
 
+  const [searchText, setSearchText] = useState(""); // відповідає за відображення тексту в input
+  const [searchValue, setSearchValue] = useState(""); // загружається кінцеве значення після debounce для запроса
+
   const { isToken, token } = useAuth();
+
+  const updateSearchValue = useCallback(
+    debounce((str) => {
+      setSearchValue(str);
+    }, 500),
+    []
+  );
+  const onChangeInput = (e, empty = false) => {
+    if (empty) {
+      // затираємо значення
+      setSearchText("");
+      updateSearchValue("");
+    } else {
+      setSearchText(e.target.value);
+      updateSearchValue(e.target.value);
+    }
+  };
 
   // загрузка id рецептів конкретного користувача
   const {
@@ -60,13 +74,22 @@ function MyRecipesPage() {
     }
   }, [isFetchedUserRecipesId, isFetchingUserRecipesId]);
 
-  // загрузка списку об'єктів рецепту
+  // загрузка списку рецепту
   const { data: userRecipes, isFetched: isFetchedUserRecipes } = useQuery({
     queryKey: ["getRecipesByUser", userRecipesId],
     queryFn: getRecipesByUser,
     enabled: isFetchedUserRecipesId,
     staleTime: 0,
   });
+
+  // загрузка продуктів по пошуку
+  const { data: searchUserRecipes, isFetched: isFetchedSearchUserRecipes } =
+    useQuery({
+      queryKey: ["searchRecipesByUser", userRecipesId, `${searchValue}`],
+      queryFn: searchRecipesByUser,
+      enabled: isFetchedUserRecipesId,
+      staleTime: 0,
+    });
 
   // видалення рецепту із збережених
   const { isSuccess: isSuccessUpdate } = useQuery({
@@ -85,11 +108,15 @@ function MyRecipesPage() {
   }, [isSuccessUpdate]);
 
   return (
-    <BoxBgWhite>
+    <BoxBgWhite infinityScroll={false}>
       <StyledContainer paddingY={true}>
-        <SearchBlock buttons={buttonsSearch} />
+        <SearchBlock
+          searchText={searchText}
+          onChangeInput={onChangeInput}
+          buttons={buttonsSearch}
+        />
       </StyledContainer>
-      <BoxBgBlue>
+      <BoxBgBlue infinityScroll={false}>
         <StyledContainer paddingY={true}>
           {/* Grid */}
           <Grid
@@ -99,7 +126,24 @@ function MyRecipesPage() {
               minHeight: "100%",
             }}
           >
-            {isFetchedUserRecipes && userRecipes[0] ? (
+            {searchValue ? (
+              <MyRecipes
+                recipes={searchUserRecipes}
+                isFetched={isFetchedSearchUserRecipes}
+                userRecipesId={previousRecipesId}
+                setNewRecipesId={setNewRecipesId}
+                setIsUpdate={setIsUpdate}
+              />
+            ) : (
+              <MyRecipes
+                recipes={userRecipes}
+                isFetched={isFetchedUserRecipes}
+                userRecipesId={previousRecipesId}
+                setNewRecipesId={setNewRecipesId}
+                setIsUpdate={setIsUpdate}
+              />
+            )}
+            {/* {isFetchedUserRecipes && userRecipes[0] ? (
               <>
                 {userRecipes.map((data) => (
                   <GridItem key={`${data?.name}`}>
@@ -116,7 +160,7 @@ function MyRecipesPage() {
               <EmptyData title={emptyData.title} text={emptyData.text} />
             ) : (
               <GridSkeleton size={12} />
-            )}
+            )} */}
           </Grid>
         </StyledContainer>
       </BoxBgBlue>

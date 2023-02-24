@@ -27,6 +27,20 @@ export const getRecipesByUser = async({queryKey})=> {
   return data
 }
 
+export const searchRecipesByUser = async({queryKey})=> {
+  const [_, recipesId, recipeName] = queryKey
+  const { data, error } = await supabase
+  .from("recipes")
+  .select("*")
+  .in('id', recipesId)
+  .textSearch('name', recipeName, {
+    type: 'websearch',
+    config: 'english',
+  })
+  return data
+}
+
+
 
 export const getProductsIdByUser = async({queryKey}) => {
   const [_, userId] = queryKey
@@ -47,10 +61,23 @@ export const updateProductsIdByUser = async({queryKey}) => {
 }
 
 export const getProductsByUser = async({queryKey})=> {
-  const [_, recipesId] = queryKey
+  const [_, productsId] = queryKey
   const { data, error } = await supabase
   .from("ingredients")
   .select("*")
-  .in('id', recipesId)
+  .in('id', productsId)
+  return data
+}
+
+export const searchProductsByUser = async({queryKey})=> {
+  const [_, productssId, productName] = queryKey
+  const { data, error } = await supabase
+  .from("ingredients")
+  .select("*")
+  .in('id', productssId)
+  .textSearch('name', productName, {
+    type: 'websearch',
+    config: 'english',
+  })
   return data
 }
