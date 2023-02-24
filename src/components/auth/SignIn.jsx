@@ -30,7 +30,7 @@ function SignIn() {
       navigate(-1);
       successSignInAlert();
     } catch (error) {
-      errorSignInAlert();
+      errorSignInAlert(error.message);
     }
   }
 

@@ -62,8 +62,6 @@ function SearchBlock({ searchText, onChangeInput, buttons = [] }) {
             {obj.name}
           </GreyButton>
         ))}
-        {/* <GreyButton link="/recipes">all recipes</GreyButton>
-        <GreyButton link="/recipes/my-recipes">my recipes</GreyButton> */}
       </Box>
     </Box>
   );

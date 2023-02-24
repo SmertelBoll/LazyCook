@@ -8,12 +8,12 @@ const defaultProp = {
   background: "#FDFDFD",
 }
 
-export const errorAuthAlert = () => {
+export const errorAuthAlert = (error) => {
   Swal.fire({
     ...defaultProp,
     icon: "error",
     title: "Authorization error",
-    text: "check if the input is correct",
+    text: error,
   });
 }
 
@@ -26,12 +26,12 @@ export const verificationAuthAlert = () => {
   });
 }
 
-export const errorSignInAlert = () => {
+export const errorSignInAlert = (error) => {
   Swal.fire({
     ...defaultProp,
     icon: "error",
     title: "Login error",
-    text: "check the correctness of the email or password",
+    text: error,
   });
 }
 

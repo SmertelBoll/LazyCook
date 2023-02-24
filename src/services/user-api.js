@@ -5,7 +5,7 @@ export const getRecipesIdByUser = async({queryKey}) => {
   const { data, error } = await supabase
   .from('userState')
   .select('recipes')
-  .eq('user_id', userId)
+  // .eq('id', userId) завдяки політиці RLS supabase можна це не вказувати
   return data[0].recipes
 }
 
@@ -14,7 +14,7 @@ export const updateRecipesIdByUser = async({queryKey}) => {
   const { data: currentRecipesId, error } = await supabase
   .from("userState")
   .update({ recipes: newRecipesId })
-  .eq("user_id", userId);
+  .eq("id", userId);
   return currentRecipesId
 }
 
@@ -47,7 +47,7 @@ export const getProductsIdByUser = async({queryKey}) => {
   const { data, error } = await supabase
   .from('userState')
   .select('ingredients')
-  .eq('user_id', userId)
+  // .eq('id', userId) завдяки політиці RLS supabase можна це не вказувати
   return data[0].ingredients
 }
 
@@ -56,7 +56,7 @@ export const updateProductsIdByUser = async({queryKey}) => {
   const { data: currentProductsId, error } = await supabase
   .from("userState")
   .update({ ingredients: newProductsId })
-  .eq("user_id", userId);
+  .eq("id", userId);
   return currentProductsId
 }
 

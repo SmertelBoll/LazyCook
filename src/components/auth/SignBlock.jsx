@@ -105,7 +105,9 @@ function SignBlock({ bgImage = "", handleSubmit }) {
               },
             }}
           >
-            <Typography variant="p">sign in</Typography>
+            <Typography variant="p">
+              {sign === "in" ? "sign in" : sign === "up" ? "sign up" : ""}
+            </Typography>
           </StyledButton>
           <Box
             sx={{ display: sign === "in" || sign === "up" ? "block" : "none" }}

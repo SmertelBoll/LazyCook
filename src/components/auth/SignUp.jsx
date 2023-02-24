@@ -29,7 +29,7 @@ function SignUp() {
       verificationAuthAlert();
       navigate("/sign-in");
     } catch (error) {
-      errorAuthAlert();
+      errorAuthAlert(error.message);
     }
   }
 
