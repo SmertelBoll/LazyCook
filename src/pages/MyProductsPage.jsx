@@ -21,10 +21,12 @@ const buttonsSearch = [
   {
     name: "all products",
     link: "/products",
+    notAuth: "/products",
   },
   {
     name: "my products",
     link: "/products/my-products",
+    notAuth: "/sign-in",
   },
 ];
 

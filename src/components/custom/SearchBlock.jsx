@@ -3,8 +3,10 @@ import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import GreyButton from "./GreyButton";
+import { useAuth } from "../auth/Auth";
 
 function SearchBlock({ searchText, onChangeInput, buttons = [] }) {
+  const { token } = useAuth();
   return (
     <Box
       sx={{
@@ -58,7 +60,7 @@ function SearchBlock({ searchText, onChangeInput, buttons = [] }) {
         }}
       >
         {buttons.map((obj) => (
-          <GreyButton link={obj.link} key={obj.link}>
+          <GreyButton link={token ? obj.link : obj.notAuth} key={obj.link}>
             {obj.name}
           </GreyButton>
         ))}

@@ -16,10 +16,12 @@ const buttonsSearch = [
   {
     name: "all recipes",
     link: "/recipes",
+    notAuth: "/recipes",
   },
   {
     name: "my recipes",
     link: "/recipes/my-recipes",
+    notAuth: "/sign-in",
   },
 ];
 
