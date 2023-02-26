@@ -40,6 +40,16 @@ export const searchRecipesByUser = async({queryKey})=> {
   return data
 }
 
+export const getUserRecipesByCategory = async({queryKey})=> {
+  const [_, recipesId, category] = queryKey
+  const { data, error } = await supabase
+  .from("recipes")
+  .select("*")
+  .in('id', recipesId)
+  .eq('category', category)
+  return data
+}
+
 
 
 export const getProductsIdByUser = async({queryKey}) => {

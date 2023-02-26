@@ -12,19 +12,6 @@ import {
 import SearchBlock from "../components/custom/SearchBlock";
 import { Box, CircularProgress, Grid, Grow, IconButton } from "@mui/material";
 
-const buttonsSearch = [
-  {
-    name: "all products",
-    link: "/products",
-    notAuth: "/products",
-  },
-  {
-    name: "my products",
-    link: "/products/my-products",
-    notAuth: "/sign-in",
-  },
-];
-
 function ProductsPage() {
   const [scroll, setScroll] = useState(0);
   const [searchText, setSearchText] = useState(""); // відповідає за відображення тексту в input
@@ -116,7 +103,7 @@ function ProductsPage() {
         <SearchBlock
           searchText={searchText}
           onChangeInput={onChangeInput}
-          buttons={buttonsSearch}
+          component="Products"
         />
       </StyledContainer>
 

@@ -17,19 +17,6 @@ import {
 import debounce from "lodash.debounce";
 import MyProducts from "../components/MyProducts/MyProducts";
 
-const buttonsSearch = [
-  {
-    name: "all products",
-    link: "/products",
-    notAuth: "/products",
-  },
-  {
-    name: "my products",
-    link: "/products/my-products",
-    notAuth: "/sign-in",
-  },
-];
-
 function MyProductsPage() {
   const [isUpdate, setIsUpdate] = useState(false);
   const [previousProductsId, setPreviousProductsId] = useState([]);
@@ -76,6 +63,7 @@ function MyProductsPage() {
       setPreviousProductsId(userProductsId);
     }
   }, [isFetchedUserProductsId, isFetchingUserProductsId]);
+  // не впевнений як, але isFetchingUserProductsId покращує обновлення кнопок
 
   // загрузка списку продуктів
   const { data: userProducts, isFetched: isFetchedUserProducts } = useQuery({
@@ -116,7 +104,7 @@ function MyProductsPage() {
         <SearchBlock
           searchText={searchText}
           onChangeInput={onChangeInput}
-          buttons={buttonsSearch}
+          component="MyProducts"
         />
       </StyledContainer>
       <BoxBgBlue infinityScroll={false}>

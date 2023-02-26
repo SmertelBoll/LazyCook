@@ -1,6 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useInfiniteQuery } from "react-query";
-import { getAllRecipes, searchRecipes } from "../services/recipes-api";
+import {
+  getAllRecipes,
+  getRecipesByCategory,
+  searchRecipes,
+} from "../services/recipes-api";
 import debounce from "lodash.debounce";
 import {
   BoxBgBlue,
@@ -12,28 +16,17 @@ import { Box, CircularProgress, Grid, Grow, IconButton } from "@mui/material";
 import Recipes from "../components/Recipes/Recipes";
 import NorthIcon from "@mui/icons-material/North";
 
-const buttonsSearch = [
-  {
-    name: "all recipes",
-    link: "/recipes",
-    notAuth: "/recipes",
-  },
-  {
-    name: "my recipes",
-    link: "/recipes/my-recipes",
-    notAuth: "/sign-in",
-  },
-];
-
 function RecipesPage() {
   const [scroll, setScroll] = useState(0);
   const [searchText, setSearchText] = useState(""); // відповідає за відображення тексту в input
   const [searchValue, setSearchValue] = useState(""); // загружається кінцеве значення після debounce для запроса
+  const [category, setCategory] = useState(false);
 
   // робота з пошуком
   const updateSearchValue = useCallback(
     debounce((str) => {
       setSearchValue(str);
+      setCategory(false);
     }, 500),
     []
   );
@@ -48,6 +41,14 @@ function RecipesPage() {
     }
   };
 
+  // зміна категорії
+  useEffect(() => {
+    if (category) {
+      setSearchText("");
+      setSearchValue("");
+    }
+  }, [category]);
+
   // відстежування скролу
   const handleScroll = () => {
     setScroll(window.scrollY);
@@ -60,6 +61,7 @@ function RecipesPage() {
     if (
       // All
       searchText === "" && // непотрібно загружати нові дані, якщо ми шукаємо по назві
+      category === "all" && // непотрібно загружати нові дані, якщо ми шукаємо по категорії
       window.scrollY >= document.body.scrollHeight - window.innerHeight - 450 && // скрол знизу
       !isFetchingNextPageAll && // наступна група даних зараз не загружається
       allRecipes?.pages[allRecipes?.pages?.length - 1]?.data?.length !== 0 && // якщо повертаємий масив пустий, то даних більше немає
@@ -78,12 +80,35 @@ function RecipesPage() {
     ) {
       fetchNextPageByName();
     }
+    if (
+      // By Category
+      searchText === "" && // зашружати тільки тоді коли щось вводиться
+      window.scrollY >= document.body.scrollHeight - window.innerHeight - 450 && // скрол знизу
+      !isFetchingNextPageByCategory && // наступна група даних зараз не загружається
+      recipesByCategory?.pages[recipesByCategory?.pages?.length - 1]?.data
+        ?.length !== 0 && // якщо повертаємий масив пустий, то даних більше немає
+      recipesByCategory?.pages[0]?.data // якщо навіть перший елемент не загрузився, то не повторювати запроси
+    ) {
+      fetchNextPageByCategory();
+    }
   }, [scroll]);
 
   // прокрутна вверх
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  const {
+    data: allRecipes,
+    fetchNextPage: fetchNextPageAll,
+    isFetchingNextPage: isFetchingNextPageAll,
+    isFetching: isFetchingAll,
+    isFetched: isFetchedAll,
+  } = useInfiniteQuery("AllRecipes", getAllRecipes, {
+    getNextPageParam: (lastPage, pages) => {
+      return lastPage.nextPage;
+    },
+  });
 
   const {
     data: recipesByName,
@@ -98,16 +123,20 @@ function RecipesPage() {
   });
 
   const {
-    data: allRecipes,
-    fetchNextPage: fetchNextPageAll,
-    isFetchingNextPage: isFetchingNextPageAll,
-    isFetching: isFetchingAll,
-    isFetched: isFetchedAll,
-  } = useInfiniteQuery("AllRecipes", getAllRecipes, {
-    getNextPageParam: (lastPage, pages) => {
-      return lastPage.nextPage;
-    },
-  });
+    data: recipesByCategory,
+    fetchNextPage: fetchNextPageByCategory,
+    isFetchingNextPage: isFetchingNextPageByCategory,
+    isFetching: isFetchingByCategory,
+    isFetched: isFetchedByCategory,
+  } = useInfiniteQuery(
+    ["getRecipesByCategory", `${category}`],
+    getRecipesByCategory,
+    {
+      getNextPageParam: (lastPage, pages) => {
+        return lastPage.nextPage;
+      },
+    }
+  );
 
   return (
     <BoxBgWhite>
@@ -116,7 +145,9 @@ function RecipesPage() {
         <SearchBlock
           searchText={searchText}
           onChangeInput={onChangeInput}
-          buttons={buttonsSearch}
+          component="Recipes"
+          category={category}
+          setCategory={setCategory}
         />
       </StyledContainer>
 
@@ -137,6 +168,13 @@ function RecipesPage() {
                 isFetched={isFetchedByName}
                 isFetching={isFetchingByName}
               />
+            ) : category ? (
+              <Recipes
+                recipes={recipesByCategory}
+                isFetchingNextPage={isFetchingNextPageByCategory}
+                isFetched={isFetchedByCategory}
+                isFetching={isFetchingByCategory}
+              />
             ) : (
               <Recipes
                 recipes={allRecipes}
@@ -148,7 +186,9 @@ function RecipesPage() {
           </Grid>
 
           {/* loading circle */}
-          {(isFetchingNextPageAll || isFetchingNextPageByName) && (
+          {(isFetchingNextPageAll ||
+            isFetchingNextPageByName ||
+            isFetchingNextPageByCategory) && (
             <Box sx={{ display: "flex", justifyContent: "center", pt: 5 }}>
               <CircularProgress sx={{ color: "text.grey" }} />
             </Box>

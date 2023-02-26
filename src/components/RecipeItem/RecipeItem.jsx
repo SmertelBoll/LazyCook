@@ -136,7 +136,7 @@ function RecipeItem() {
                 >
                   {data.ingredients.map((name, i) => (
                     <IngredientCard
-                      key={name}
+                      key={`${name}_${i}`}
                       name={data.ingredients[i]}
                       measure={data.measure[i]}
                     />

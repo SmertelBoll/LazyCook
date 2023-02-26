@@ -35,6 +35,7 @@ const typography = {
     },
     fontWeight: 400,
     textTransform: "unset",
+    fontSizeSx: {xs: smallFormula(16, 28), sm: largeFormula(16, 28)}
   },
   menuItem: {                                  // header button, ingredient text
     fontSize: smallFormula(16, 20),

@@ -11,24 +11,12 @@ import SearchBlock from "../components/custom/SearchBlock";
 import {
   getRecipesByUser,
   getRecipesIdByUser,
+  getUserRecipesByCategory,
   searchRecipesByUser,
   updateRecipesIdByUser,
 } from "../services/user-api";
 import debounce from "lodash.debounce";
 import MyRecipes from "../components/MyRecipes/MyRecipes";
-
-const buttonsSearch = [
-  {
-    name: "all recipes",
-    link: "/recipes",
-    notAuth: "/recipes",
-  },
-  {
-    name: "my recipes",
-    link: "/recipes/my-recipes",
-    notAuth: "/sign-in",
-  },
-];
 
 function MyRecipesPage() {
   const [isUpdate, setIsUpdate] = useState(false);
@@ -37,6 +25,7 @@ function MyRecipesPage() {
 
   const [searchText, setSearchText] = useState(""); // відповідає за відображення тексту в input
   const [searchValue, setSearchValue] = useState(""); // загружається кінцеве значення після debounce для запроса
+  const [category, setCategory] = useState(false);
 
   const { token } = useAuth();
 
@@ -44,6 +33,7 @@ function MyRecipesPage() {
   const updateSearchValue = useCallback(
     debounce((str) => {
       setSearchValue(str);
+      setCategory(false);
     }, 500),
     []
   );
@@ -57,6 +47,14 @@ function MyRecipesPage() {
       updateSearchValue(e.target.value);
     }
   };
+
+  // зміна категорії
+  useEffect(() => {
+    if (category) {
+      setSearchText("");
+      setSearchValue("");
+    }
+  }, [category]);
 
   // загрузка id рецептів конкретного користувача
   const {
@@ -76,6 +74,7 @@ function MyRecipesPage() {
       setPreviousRecipesId(userRecipesId);
     }
   }, [isFetchedUserRecipesId, isFetchingUserRecipesId]);
+  // не впевнений як, але isFetchingUserRecipesId покращує обновлення кнопок
 
   // загрузка списку рецепту
   const { data: userRecipes, isFetched: isFetchedUserRecipes } = useQuery({
@@ -93,6 +92,17 @@ function MyRecipesPage() {
       enabled: isFetchedUserRecipesId,
       staleTime: 0,
     });
+
+  // загрузка продуктів по категоріям
+  const {
+    data: userRecipesByCategory,
+    isFetched: isFetchedUserRecipesByCategory,
+  } = useQuery({
+    queryKey: ["getUserRecipesByCategory", userRecipesId, `${category}`],
+    queryFn: getUserRecipesByCategory,
+    enabled: isFetchedUserRecipesId,
+    staleTime: 0,
+  });
 
   // видалення рецепту із збережених
   const { isSuccess: isSuccessUpdate } = useQuery({
@@ -116,7 +126,9 @@ function MyRecipesPage() {
         <SearchBlock
           searchText={searchText}
           onChangeInput={onChangeInput}
-          buttons={buttonsSearch}
+          component="MyRecipes"
+          category={category}
+          setCategory={setCategory}
         />
       </StyledContainer>
       <BoxBgBlue infinityScroll={false}>
@@ -137,6 +149,14 @@ function MyRecipesPage() {
                 setNewRecipesId={setNewRecipesId}
                 setIsUpdate={setIsUpdate}
               />
+            ) : category ? (
+              <MyRecipes
+                recipes={userRecipesByCategory}
+                isFetched={isFetchedUserRecipesByCategory}
+                userRecipesId={previousRecipesId}
+                setNewRecipesId={setNewRecipesId}
+                setIsUpdate={setIsUpdate}
+              />
             ) : (
               <MyRecipes
                 recipes={userRecipes}
@@ -146,24 +166,6 @@ function MyRecipesPage() {
                 setIsUpdate={setIsUpdate}
               />
             )}
-            {/* {isFetchedUserRecipes && userRecipes[0] ? (
-              <>
-                {userRecipes.map((data) => (
-                  <GridItem key={`${data?.name}`}>
-                    <MyRecipeCard
-                      recipeItem={data}
-                      userRecipesId={previousRecipesId}
-                      setNewRecipesId={setNewRecipesId}
-                      setIsUpdate={setIsUpdate}
-                    />
-                  </GridItem>
-                ))}
-              </>
-            ) : isFetchedUserRecipes ? (
-              <EmptyData title={emptyData.title} text={emptyData.text} />
-            ) : (
-              <GridSkeleton size={12} />
-            )} */}
           </Grid>
         </StyledContainer>
       </BoxBgBlue>

@@ -11,9 +11,9 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import React, { useEffect, useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { StyledButton, StyledContainer } from "../custom/customComponents";
+import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { StyledContainer } from "../custom/customComponents";
 import GreyButton from "../custom/GreyButton";
 import { useAuth } from "../auth/Auth";
 import { SignOutAlert } from "../../services/alerts";
@@ -181,9 +181,12 @@ function Header() {
                 aria-haspopup="true"
                 aria-expanded={openMenu ? "true" : undefined}
                 onClick={handleClickMenu}
+                sx={{ py: { xs: 1, sm: 0 } }}
               >
-                {token.user.email.split("@")[0]}
-                <AccountCircleIcon sx={{ ml: 1 }} />
+                <Box sx={{ display: { xs: "none", sm: "block" } }}>
+                  {token.user.email.split("@")[0]}
+                </Box>
+                <AccountCircleIcon sx={{ ml: { xs: 0, sm: 1 } }} />
               </GreyButton>
 
               <Menu
@@ -191,9 +194,6 @@ function Header() {
                 anchorEl={menuItem}
                 open={openMenu}
                 onClose={handleCloseMenu}
-                MenuListProps={{
-                  "aria-labelledby": "basic-button",
-                }}
                 anchorOrigin={{
                   vertical: "bottom",
                   horizontal: "right",
@@ -203,21 +203,25 @@ function Header() {
                   horizontal: "right",
                 }}
               >
-                <MenuItem
-                  onClick={handleCloseMenu}
-                  sx={{
-                    fontSize: (theme) => theme.typography.menuItem.fontSize,
-                    fontWeight: (theme) => theme.typography.menuItem.fontWeight,
-                  }}
-                >
-                  <NavLink to="/profile" style={{ color: "inherit" }}>
+                <NavLink to="/profile">
+                  <MenuItem
+                    onClick={handleCloseMenu}
+                    sx={{
+                      fontSize: (theme) => theme.typography.menuItem.fontSize,
+                      fontWeight: (theme) =>
+                        theme.typography.menuItem.fontWeight,
+                      color: "text.grey",
+                    }}
+                  >
                     Profile
-                  </NavLink>
-                </MenuItem>
+                  </MenuItem>
+                </NavLink>
+
                 <MenuItem
                   sx={{
                     fontSize: (theme) => theme.typography.menuItem.fontSize,
                     fontWeight: (theme) => theme.typography.menuItem.fontWeight,
+                    color: "text.grey",
                   }}
                   onClick={handleLogOut}
                 >
