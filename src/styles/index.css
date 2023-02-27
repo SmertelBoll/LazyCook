@@ -8,12 +8,6 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -26,4 +20,19 @@ a:visited {
 }
 a:hover {
    text-decoration: none;
+}
+
+::-webkit-scrollbar {
+  width: 1.2em;
+}
+::-webkit-scrollbar-track {
+  background: #6C6E8A; 
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(167, 171, 194); 
+  border-radius: 100vw;
+  border: 0.25em solid #6C6E8A;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #E5EEFF;
 }
