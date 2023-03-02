@@ -11,7 +11,7 @@ import SignUp from "./components/auth/SignUp";
 import AuthProvider from "./components/auth/Auth";
 import MyProductsPage from "./pages/MyProductsPage";
 import RecipeItem from "./components/RecipeItem/RecipeItem";
-import Profile from "./components/auth/Profile";
+import Profile from "./pages/Profile";
 
 function App() {
   const queryClient = new QueryClient({

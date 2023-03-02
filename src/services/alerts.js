@@ -78,3 +78,22 @@ export const alreadyRegisteredAlert = () => {
     title: "You are already registered",
   });
 }
+
+export const errorChangePasswordAlert = (error) => {
+  Swal.fire({
+    ...defaultProp,
+    icon: "error",
+    title: "Change password error",
+    text: error,
+  });
+}
+
+export const successChangePasswordAlert = () => {
+  Swal.fire({
+    ...defaultProp,
+    timer: 2500,
+    icon: "success",
+    title: "Changed password successful",
+  });
+}
+

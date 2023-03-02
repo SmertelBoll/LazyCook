@@ -53,14 +53,14 @@ function SignBlock({ bgImage = "", handleSubmit }) {
             InputProps={{
               sx: {
                 color: "text.black",
-                fontSize: (theme) => theme.typography.p.fontSize,
+                fontSize: (theme) => theme.typography.p.fontSizeSx,
                 fontWeight: (theme) => theme.typography.p.fontWeight,
                 borderRadius: 7,
               },
             }}
             InputLabelProps={{
               sx: {
-                fontSize: (theme) => theme.typography.p.fontSize,
+                fontSize: (theme) => theme.typography.p.fontSizeSx,
                 fontWeight: (theme) => theme.typography.p.fontWeight,
               },
             }}
@@ -77,14 +77,14 @@ function SignBlock({ bgImage = "", handleSubmit }) {
             InputProps={{
               sx: {
                 color: "text.black",
-                fontSize: (theme) => theme.typography.p.fontSize,
+                fontSize: (theme) => theme.typography.p.fontSizeSx,
                 fontWeight: (theme) => theme.typography.p.fontWeight,
                 borderRadius: 7,
               },
             }}
             InputLabelProps={{
               sx: {
-                fontSize: (theme) => theme.typography.p.fontSize,
+                fontSize: (theme) => theme.typography.p.fontSizeSx,
                 fontWeight: (theme) => theme.typography.p.fontWeight,
               },
             }}

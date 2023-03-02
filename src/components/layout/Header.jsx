@@ -8,15 +8,21 @@ import {
   Divider,
   Menu,
   MenuItem,
+  Avatar,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { StyledContainer } from "../custom/customComponents";
 import GreyButton from "../custom/GreyButton";
 import { useAuth } from "../auth/Auth";
 import { SignOutAlert } from "../../services/alerts";
+import { useQuery } from "react-query";
+import { getAvatar, getUserName } from "../../services/user-profile-api";
+
+const CDNURL =
+  "https://ubgaioenvbnlnkpgtyml.supabase.co/storage/v1/object/public/profiles/";
 
 const navigation = [
   { name: "home", link: "/" },
@@ -27,6 +33,7 @@ const navigation = [
 function Header() {
   const [isDrawer, setIsDrawer] = useState(false);
   const [menuItem, setMenuItem] = useState(null);
+  const [refetch, setRefetch] = useState(false);
 
   const handleDrawerOpen = () => {
     setIsDrawer(true);
@@ -38,6 +45,7 @@ function Header() {
   // вихід з акаунта
   const { token, setToken, signOut } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const logOutFunc = () => {
     signOut();
@@ -58,6 +66,26 @@ function Header() {
   const handleCloseMenu = () => {
     setMenuItem(null);
   };
+
+  // аватар
+  const { data: avatar, isFetched: isFetchedAvatar } = useQuery({
+    queryKey: ["getAvatar", token?.user?.id],
+    queryFn: getAvatar,
+    enabled: Boolean(token),
+    staleTime: 0,
+    refetchInterval: refetch,
+  });
+  // username
+  const { data: userNameData, isFetched: isFetchedUserName } = useQuery({
+    queryKey: ["getUserName"],
+    queryFn: getUserName,
+    staleTime: 0,
+    refetchInterval: refetch,
+  });
+  useEffect(() => {
+    if (location.pathname === "/profile") setRefetch(3000);
+    else setRefetch(false);
+  }, [location]);
 
   return (
     <Box
@@ -164,7 +192,6 @@ function Header() {
         </Box>
 
         {/* auth */}
-
         <Box
           variant="p"
           sx={{
@@ -181,12 +208,31 @@ function Header() {
                 aria-haspopup="true"
                 aria-expanded={openMenu ? "true" : undefined}
                 onClick={handleClickMenu}
-                sx={{ py: { xs: 1, sm: 0 } }}
+                sx={{
+                  py: 0,
+                  pr: 0,
+                  display: "flex",
+                  justifyContent: "flex-end",
+                }}
               >
                 <Box sx={{ display: { xs: "none", sm: "block" } }}>
-                  {token.user.email.split("@")[0]}
+                  {userNameData ? userNameData : token.user.email.split("@")[0]}
                 </Box>
-                <AccountCircleIcon sx={{ ml: { xs: 0, sm: 1 } }} />
+                {avatar && isFetchedAvatar ? (
+                  <Avatar
+                    src={CDNURL + token?.user?.id + "/" + avatar?.name}
+                    sx={{
+                      width: "36px",
+                      height: "36px",
+                      ml: { xs: 0, sm: 1 },
+                      bgcolor: "text.grey",
+                    }}
+                  />
+                ) : (
+                  <AccountCircleIcon
+                    sx={{ ml: { xs: 0, sm: 1 }, fontSize: "36px" }}
+                  />
+                )}
               </GreyButton>
 
               <Menu
