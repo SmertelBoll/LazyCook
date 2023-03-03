@@ -51,7 +51,7 @@ function HomePage() {
         >
           <Box
             sx={{
-              maxWidth: "667px",
+              maxWidth: "max(667px, 20vw)",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",

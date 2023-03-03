@@ -46,6 +46,7 @@ const Profile = () => {
   const [userName, setUserName] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+
   const { token } = useAuth();
 
   useEffect(() => {
@@ -98,10 +99,12 @@ const Profile = () => {
     queryKey: ["updateUserName", token?.user?.id, userName],
     queryFn: updateUserName,
     enabled: false,
+    staleTime: 0,
   });
   const {
     data: dataUpdatePassword,
     isFetched: isFetchedUpdatePassword,
+    isFetching,
     refetch: refetchUpdatePassword,
   } = useQuery({
     queryKey: ["updatePassword", currentPassword, newPassword],
@@ -115,40 +118,45 @@ const Profile = () => {
   };
 
   const handleUpdatePassword = () => {
+    setIsClickButton(true);
     refetchUpdatePassword();
   };
 
+  //! useEffect нижче спрацьовує, якщо помилка була зробена раніше, та користувач знову зайшов у профіль.
+  //! Хоча не повинна. Потрібна допрацювати
+  const [isClickButton, setIsClickButton] = useState(false);
   useEffect(() => {
-    if (isFetchedUpdatePassword) {
+    if (isClickButton && isFetchedUpdatePassword && !isFetching) {
       if (dataUpdatePassword.error) {
         errorChangePasswordAlert(dataUpdatePassword.error.message);
       } else successChangePasswordAlert();
     }
-  }, [isFetchedUpdatePassword]);
+  }, [isFetchedUpdatePassword, isFetching]);
 
   return (
     <BoxBgWhite paddingTop={true} infinityScroll={false}>
       <BoxBgBlue infinityScroll={false}>
         <StyledContainer
           paddingY={true}
-          sx={{ display: "flex", flexDirection: "row" }}
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            gap: { xs: 2, lg: 4 },
+          }}
         >
           {/* avatar */}
-          <Box sx={{ flexBasis: "50%" }}>
-            <Avatar
-              alt="Avatar"
+          <Box
+            sx={{ flexBasis: "50%", display: "flex", flexDirection: "column" }}
+          >
+            <Box
+              component="img"
               src={getUrlAvatar(token?.user?.id, image?.name)}
               sx={{
-                width: "min(50vh, 50vw)",
-                height: "min(50vh, 50vw)",
-                margin: "auto",
-              }}
-              imgProps={{
-                style: {
-                  maxHeight: "100%",
-                  maxWidth: "100%",
-                  objectFit: "cover",
-                },
+                width: "min(100%, 50vw, 50vh)",
+                aspectRatio: "1",
+                objectFit: "cover",
+                borderRadius: "50%",
+                m: "0 auto",
               }}
             />
             <input
@@ -236,7 +244,7 @@ const Profile = () => {
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "flex-end",
+                alignItems: { xs: "center", md: "flex-end" },
               }}
             >
               <TextFieldProfile
@@ -254,7 +262,6 @@ const Profile = () => {
               <StyledButton
                 onClick={handleUpdatePassword}
                 sx={{
-                  maxWidth: "50%",
                   color: "text.black",
                   borderRadius: 3,
                   px: 2,

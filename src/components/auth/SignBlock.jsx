@@ -30,7 +30,7 @@ function SignBlock({ bgImage = "", handleSubmit }) {
           onSubmit={handleSubmit}
           noValidate
           sx={{
-            maxWidth: "500px",
+            maxWidth: "max(500px, 20vw)",
             bgcolor: "bg.white",
             p: { xs: 4, md: 5, lg: 6 },
             textAlign: "center",

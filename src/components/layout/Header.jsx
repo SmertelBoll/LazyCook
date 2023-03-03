@@ -209,8 +209,7 @@ function Header() {
                 aria-expanded={openMenu ? "true" : undefined}
                 onClick={handleClickMenu}
                 sx={{
-                  py: 0,
-                  pr: 0,
+                  pr: { xs: 0, sm: 2 },
                   display: "flex",
                   justifyContent: "flex-end",
                 }}
