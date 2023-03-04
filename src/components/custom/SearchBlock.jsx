@@ -4,6 +4,7 @@ import {
   MenuItem,
   Select,
   TextField,
+  NativeSelect,
 } from "@mui/material";
 import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
@@ -144,16 +145,19 @@ function SearchBlock({
                   textTransform: "lowercase",
                   color: "text.grey",
                   borderRadius: 3,
-                  px: 2,
                   py: "4px",
                   "&:hover": {
                     color: "text.white",
                     bgcolor: "buttonbg.grey",
                   },
+                  "& .MuiInput-input": {
+                    pl: 1,
+                    pr: 3,
+                    textAlign: "center",
+                  },
                   "& .MuiInput-input:focus": { bgcolor: "unset" },
                   "& .MuiSelect-icon": {
                     color: "text.grey",
-                    fontSize: (theme) => theme.typography.logo.fontSize,
                   },
                   "&:hover .MuiSelect-icon": { color: "text.white" },
                 }}

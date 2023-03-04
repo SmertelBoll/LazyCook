@@ -13,7 +13,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import React, { useEffect, useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { StyledContainer } from "../custom/customComponents";
 import GreyButton from "../custom/GreyButton";
 import { useAuth } from "../auth/Auth";
@@ -33,7 +33,6 @@ const navigation = [
 function Header() {
   const [isDrawer, setIsDrawer] = useState(false);
   const [menuItem, setMenuItem] = useState(null);
-  const [refetch, setRefetch] = useState(false);
 
   const handleDrawerOpen = () => {
     setIsDrawer(true);
@@ -43,9 +42,8 @@ function Header() {
   };
 
   // вихід з акаунта
-  const { token, setToken, signOut } = useAuth();
+  const { token, setToken, signOut, image, userName, setUserName } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const logOutFunc = () => {
     signOut();
@@ -68,24 +66,30 @@ function Header() {
   };
 
   // аватар
-  const { data: avatar, isFetched: isFetchedAvatar } = useQuery({
+  const {
+    data: avatar,
+    isFetched: isFetchedAvatar,
+    refetch: refetchAvatar,
+  } = useQuery({
     queryKey: ["getAvatar", token?.user?.id],
     queryFn: getAvatar,
     enabled: Boolean(token),
     staleTime: 0,
-    refetchInterval: refetch,
   });
+
+  useEffect(() => {
+    refetchAvatar();
+  }, [image]);
+
   // username
   const { data: userNameData, isFetched: isFetchedUserName } = useQuery({
     queryKey: ["getUserName"],
     queryFn: getUserName,
-    staleTime: 0,
-    refetchInterval: refetch,
   });
+
   useEffect(() => {
-    if (location.pathname === "/profile") setRefetch(3000);
-    else setRefetch(false);
-  }, [location]);
+    if (isFetchedUserName) setUserName(userNameData);
+  }, [isFetchedUserName]);
 
   return (
     <Box
@@ -215,7 +219,18 @@ function Header() {
                 }}
               >
                 <Box sx={{ display: { xs: "none", sm: "block" } }}>
-                  {userNameData ? userNameData : token.user.email.split("@")[0]}
+                  <Typography
+                    variant="p"
+                    sx={{
+                      display: "block",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      maxWidth: "17vw",
+                    }}
+                  >
+                    {userName ? userName : token.user.email.split("@")[0]}
+                  </Typography>
                 </Box>
                 {avatar && isFetchedAvatar ? (
                   <Avatar

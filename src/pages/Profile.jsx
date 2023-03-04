@@ -1,12 +1,4 @@
-import {
-  Avatar,
-  styled,
-  Box,
-  Typography,
-  TextField,
-  InputAdornment,
-} from "@mui/material";
-import DoneIcon from "@mui/icons-material/Done";
+import { Box, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { supabase } from "../supabase/supabaseClient";
 import { useAuth } from "../components/auth/Auth";
@@ -17,7 +9,6 @@ import {
   StyledButton,
   StyledContainer,
 } from "../components/custom/customComponents";
-import BlackButton from "../components/custom/BlackButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import {
@@ -32,22 +23,23 @@ import {
   successChangePasswordAlert,
 } from "../services/alerts";
 
+const noAvatar =
+  "https://ubgaioenvbnlnkpgtyml.supabase.co/storage/v1/object/public/profiles/static/no-avatar.png";
 const CDNURL =
   "https://ubgaioenvbnlnkpgtyml.supabase.co/storage/v1/object/public/profiles/";
 // CDNURL + userId + '/' + name
 
 const getUrlAvatar = (userId, name) => {
   if (userId && name) return `${CDNURL}${userId}/${name}`;
-  return null;
+  return noAvatar;
 };
 
 const Profile = () => {
-  const [image, setImage] = useState(null);
-  const [userName, setUserName] = useState("");
+  const [localUserName, setLocalUserName] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
-  const { token } = useAuth();
+  const { token, image, setImage, setUserName } = useAuth();
 
   useEffect(() => {
     if (token) getImage();
@@ -75,28 +67,37 @@ const Profile = () => {
   };
 
   const uploadImage = async (e) => {
-    deleteImage(e);
     let file = e.target.files[0];
 
-    const { data } = await supabase.storage
-      .from("profiles")
-      .upload(token.user.id + "/avatar_" + uuidv4(), file);
+    if (file) {
+      deleteImage(e);
+      const { data } = await supabase.storage
+        .from("profiles")
+        .upload(token.user.id + "/avatar_" + uuidv4(), file);
 
-    if (data) getImage();
+      if (data) getImage();
+    }
   };
 
-  const { data: userNameData, isFetched: isFetchedUserName } = useQuery({
+  const {
+    data: userNameData,
+    isFetched: isFetchedUserName,
+    isFetching: isFetchingUserName,
+  } = useQuery({
     queryKey: ["getUserName"],
     queryFn: getUserName,
     staleTime: 0,
   });
 
   useEffect(() => {
-    if (isFetchedUserName) setUserName(userNameData);
+    if (isFetchedUserName) {
+      if (!localUserName) setUserName(userNameData);
+      setLocalUserName(userNameData);
+    }
   }, [isFetchedUserName]);
 
   const { refetch: refetchUpdateUserName } = useQuery({
-    queryKey: ["updateUserName", token?.user?.id, userName],
+    queryKey: ["updateUserName", token?.user?.id, localUserName],
     queryFn: updateUserName,
     enabled: false,
     staleTime: 0,
@@ -114,6 +115,7 @@ const Profile = () => {
   });
 
   const handleUpdateUserName = () => {
+    setUserName(localUserName);
     refetchUpdateUserName();
   };
 
@@ -146,79 +148,58 @@ const Profile = () => {
         >
           {/* avatar */}
           <Box
-            sx={{ flexBasis: "50%", display: "flex", flexDirection: "column" }}
+            sx={{
+              flexBasis: "50%",
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+            }}
           >
-            <Box
-              component="img"
-              src={getUrlAvatar(token?.user?.id, image?.name)}
-              sx={{
-                width: "min(100%, 50vw, 50vh)",
-                aspectRatio: "1",
-                objectFit: "cover",
-                borderRadius: "50%",
-                m: "0 auto",
-              }}
-            />
-            <input
-              accept="image/*"
-              hidden
-              id="avatar-image-upload"
-              type="file"
-              onChange={uploadImage}
-            />
-            <label htmlFor="avatar-image-upload">
+            <label
+              htmlFor="image"
+              style={{ display: "flex", cursor: "pointer" }}
+            >
+              <input
+                type="file"
+                name="image"
+                id="image"
+                style={{ display: "none", width: "100%" }}
+                onChange={uploadImage}
+              />
               <Box
+                component="img"
+                src={getUrlAvatar(token?.user?.id, image?.name)}
                 sx={{
-                  mt: 2,
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: 2,
+                  width: "min(100%, 50vw, 50vh)",
+                  aspectRatio: "1",
+                  objectFit: "cover",
+                  borderRadius: "50%",
+                  m: "0 auto",
                 }}
-              >
-                <StyledButton
-                  component="span"
-                  sx={{
-                    color: "text.black",
-                    borderRadius: 3,
-                    px: 2,
-                    py: 0,
-                    "&:hover": {
-                      color: "text.white",
-                      bgcolor: "buttonbg.black",
-                    },
-                  }}
-                >
-                  <Typography
-                    variant="p"
-                    sx={{ display: "flex", alignItems: "center" }}
-                  >
-                    upload
-                    <FileUploadIcon />
-                  </Typography>
-                </StyledButton>
-                <StyledButton
-                  onClick={deleteImage}
-                  sx={{
-                    color: "text.black",
-                    borderRadius: 3,
-                    px: 2,
-                    py: 0,
-                    "&:hover": {
-                      color: "text.white",
-                      bgcolor: "buttonbg.black",
-                    },
-                  }}
-                >
-                  <Typography
-                    variant="p"
-                    sx={{ display: "flex", alignItems: "center" }}
-                  >
-                    delete
-                    <DeleteIcon />
-                  </Typography>
-                </StyledButton>
-              </Box>
+              />
             </label>
+            <StyledButton
+              onClick={deleteImage}
+              sx={{
+                m: "0 auto",
+                color: "text.black",
+                borderRadius: 3,
+                px: 2,
+                py: 0,
+                "&:hover": {
+                  color: "text.white",
+                  bgcolor: "buttonbg.black",
+                },
+              }}
+            >
+              <Typography
+                variant="p"
+                sx={{ display: "flex", alignItems: "center" }}
+              >
+                delete
+                <DeleteIcon />
+              </Typography>
+            </StyledButton>
           </Box>
           {/* username and password */}
           <Box sx={{ flexBasis: "50%" }}>
@@ -229,8 +210,8 @@ const Profile = () => {
             <Box sx={{ mb: { xs: 2, md: 3 } }}>
               <TextFieldProfile
                 label="user name"
-                value={userName}
-                onChangeInput={(e) => setUserName(e.target.value)}
+                value={localUserName}
+                onChangeInput={(e) => setLocalUserName(e.target.value)}
                 isButtonClick={true}
                 handleClick={handleUpdateUserName}
               />

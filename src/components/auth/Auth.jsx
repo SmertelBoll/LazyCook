@@ -9,6 +9,8 @@ export const useAuth = () => {
 
 const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(false);
+  const [image, setImage] = useState(null);
+  const [userName, setUserName] = useState("");
 
   if (token) {
     localStorage.setItem("token", JSON.stringify(token));
@@ -24,6 +26,10 @@ const AuthProvider = ({ children }) => {
   const value = {
     token,
     setToken,
+    image,
+    setImage,
+    userName,
+    setUserName,
     signUp: (data) => supabase.auth.signUp(data),
     signIn: (data) => supabase.auth.signInWithPassword(data),
     signOut: () => supabase.auth.signOut(),
