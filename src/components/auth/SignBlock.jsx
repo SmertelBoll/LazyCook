@@ -106,7 +106,7 @@ function SignBlock({ bgImage = "", handleSubmit }) {
             }}
           >
             <Typography variant="p">
-              {sign === "in" ? "sign in" : sign === "up" ? "sign up" : ""}
+              {sign === "in" ? "log in" : sign === "up" ? "sign up" : ""}
             </Typography>
           </StyledButton>
           <Box
@@ -120,7 +120,7 @@ function SignBlock({ bgImage = "", handleSubmit }) {
                 : ""}{" "}
             </Typography>
             <NavLink
-              to={sign === "in" ? "/sign-up" : sign === "up" ? "/sign-in" : ""}
+              to={sign === "in" ? "/sign-up" : sign === "up" ? "/log-in" : ""}
             >
               <Typography
                 variant="p"
@@ -132,7 +132,7 @@ function SignBlock({ bgImage = "", handleSubmit }) {
                   },
                 }}
               >
-                {sign === "in" ? "sign up" : sign === "up" ? "sign in" : ""}
+                {sign === "in" ? "sign up" : sign === "up" ? "log in" : ""}
               </Typography>
             </NavLink>
           </Box>

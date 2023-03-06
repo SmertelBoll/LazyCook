@@ -23,7 +23,7 @@ const buttonsSearchProducts = [
   {
     name: "my products",
     link: "/products/my-products",
-    notAuth: "/sign-in",
+    notAuth: "/log-in",
   },
 ];
 
@@ -36,7 +36,7 @@ const buttonsSearchRecipes = [
   {
     name: "my recipes",
     link: "/recipes/my-recipes",
-    notAuth: "/sign-in",
+    notAuth: "/log-in",
   },
 ];
 
@@ -61,9 +61,12 @@ function SearchBlock({
     <Box
       sx={{
         display: "flex",
-        flexDirection: { xs: "column", sm: "row" },
-        alignItems: { xs: "auto", sm: "center" },
-        justifyContent: { xs: "auto", sm: "space-between" },
+        flexDirection: { xs: "column", md: "row" },
+        alignItems: { xs: "auto", md: "center" },
+        justifyContent: {
+          xs: "auto",
+          md: component === "WhatToCook" ? "flex-start" : "space-between",
+        },
         gap: { xs: 2, sm: "none" },
       }}
     >
@@ -72,7 +75,11 @@ function SearchBlock({
         placeholder="search"
         value={searchText}
         onChange={onChangeInput}
-        sx={{ width: { sx: "100%", sm: "40%" }, order: { xs: 2, sm: 1 } }}
+        sx={{
+          width: { sx: "100%", md: "40%" },
+          order: { xs: 2, md: 1 },
+          display: component === "WhatToCook" ? "none" : "auto",
+        }}
         InputProps={{
           disableUnderline: true,
           sx: {
@@ -107,16 +114,22 @@ function SearchBlock({
           gap: { xs: 1, sm: 2 },
           justifyContent: "center",
           alignItems: "center",
-          order: { xs: 1, sm: 2 },
+          order: { xs: 1, md: 2 },
+          flexWrap: "wrap",
         }}
       >
-        {component === "MyProducts" || component === "Products" ? (
+        {component === "MyProducts" ||
+        component === "Products" ||
+        component === "WhatToCook" ? (
           <>
             {buttonsSearchProducts.map((obj) => (
               <GreyButton link={token ? obj.link : obj.notAuth} key={obj.link}>
                 {obj.name}
               </GreyButton>
             ))}
+            {token && (
+              <GreyButton link="/what-to-cook">what to cook</GreyButton>
+            )}
           </>
         ) : component === "MyRecipes" || component === "Recipes" ? (
           <>

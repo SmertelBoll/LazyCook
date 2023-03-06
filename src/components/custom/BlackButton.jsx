@@ -27,7 +27,10 @@ function BlackButton({ backArrow = false, sx = {}, children, ...props }) {
       }}
     >
       {backArrow && <WestIcon sx={{ mr: 1 }} />}
-      <Typography variant="p" sx={{ p: 0 }}>
+      <Typography
+        variant="p"
+        sx={{ p: 0, display: "flex", alignItems: "center" }}
+      >
         {children}
       </Typography>
     </StyledButton>

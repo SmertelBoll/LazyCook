@@ -61,7 +61,7 @@ function RecipesPage() {
     if (
       // All
       searchText === "" && // непотрібно загружати нові дані, якщо ми шукаємо по назві
-      category === "all" && // непотрібно загружати нові дані, якщо ми шукаємо по категорії
+      category === false && // непотрібно загружати нові дані, якщо ми шукаємо по категорії
       window.scrollY >= document.body.scrollHeight - window.innerHeight - 450 && // скрол знизу
       !isFetchingNextPageAll && // наступна група даних зараз не загружається
       allRecipes?.pages[allRecipes?.pages?.length - 1]?.data?.length !== 0 && // якщо повертаємий масив пустий, то даних більше немає

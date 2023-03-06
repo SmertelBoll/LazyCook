@@ -22,6 +22,7 @@ import {
   errorChangePasswordAlert,
   successChangePasswordAlert,
 } from "../services/alerts";
+import BlackButton from "../components/custom/BlackButton";
 
 const noAvatar =
   "https://ubgaioenvbnlnkpgtyml.supabase.co/storage/v1/object/public/profiles/static/no-avatar.png";
@@ -124,8 +125,8 @@ const Profile = () => {
     refetchUpdatePassword();
   };
 
-  //! useEffect нижче спрацьовує, якщо помилка була зробена раніше, та користувач знову зайшов у профіль.
-  //! Хоча не повинна. Потрібна допрацювати
+  //! useEffect below works if the mistake was made earlier, and the user entered the profile again.
+  //! Although it shouldn't. It is necessary to finalize
   const [isClickButton, setIsClickButton] = useState(false);
   useEffect(() => {
     if (isClickButton && isFetchedUpdatePassword && !isFetching) {
@@ -178,28 +179,10 @@ const Profile = () => {
                 }}
               />
             </label>
-            <StyledButton
-              onClick={deleteImage}
-              sx={{
-                m: "0 auto",
-                color: "text.black",
-                borderRadius: 3,
-                px: 2,
-                py: 0,
-                "&:hover": {
-                  color: "text.white",
-                  bgcolor: "buttonbg.black",
-                },
-              }}
-            >
-              <Typography
-                variant="p"
-                sx={{ display: "flex", alignItems: "center" }}
-              >
-                delete
-                <DeleteIcon />
-              </Typography>
-            </StyledButton>
+            <BlackButton sx={{ m: "0 auto", py: "2px" }} onClick={deleteImage}>
+              delete
+              <DeleteIcon />
+            </BlackButton>
           </Box>
           {/* username and password */}
           <Box sx={{ flexBasis: "50%" }}>
@@ -240,21 +223,12 @@ const Profile = () => {
                 onChangeInput={(e) => setNewPassword(e.target.value)}
                 isButtonClick={false}
               />
-              <StyledButton
+              <BlackButton
                 onClick={handleUpdatePassword}
-                sx={{
-                  color: "text.black",
-                  borderRadius: 3,
-                  px: 2,
-                  py: 0,
-                  "&:hover": {
-                    color: "text.white",
-                    bgcolor: "buttonbg.black",
-                  },
-                }}
+                sx={{ py: "2px", mt: 1 }}
               >
-                <Typography variant="p">change</Typography>
-              </StyledButton>
+                change
+              </BlackButton>
             </Box>
           </Box>
         </StyledContainer>

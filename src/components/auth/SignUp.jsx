@@ -27,7 +27,7 @@ function SignUp() {
       if (error) throw error;
 
       verificationAuthAlert();
-      navigate("/sign-in");
+      navigate("/log-in");
     } catch (error) {
       errorAuthAlert(error.message);
     }

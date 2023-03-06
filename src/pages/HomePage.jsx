@@ -131,7 +131,7 @@ function HomePage() {
               If you want to cook something specific, you can find many recipes
               with us and we will tell you exactly what you need for this.
             </Typography>
-            <NavLink to={token ? "/" : "/sign-in"}>
+            <NavLink to={token ? "/" : "/log-in"}>
               <StyledButton
                 onClick={handleClick}
                 sx={{
@@ -146,7 +146,7 @@ function HomePage() {
                 }}
               >
                 <Typography variant="p" sx={{ color: "text.black" }}>
-                  sign in
+                  log in
                 </Typography>
               </StyledButton>
             </NavLink>

@@ -290,7 +290,7 @@ function Header() {
               </Menu>
             </Box>
           ) : (
-            <GreyButton link="/sign-in">sign in</GreyButton>
+            <GreyButton link="/log-in">log in</GreyButton>
           )}
         </Box>
       </StyledContainer>

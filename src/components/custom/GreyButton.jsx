@@ -12,7 +12,7 @@ function GreyButton({ link = null, sx = {}, ...props }) {
         sx={{
           color: "text.grey",
           borderRadius: 3,
-          px: 2,
+          px: { xs: 1, sm: 2 },
           py: 0,
           "&:hover": {
             color: "text.white",
