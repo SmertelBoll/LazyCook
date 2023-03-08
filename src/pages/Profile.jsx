@@ -50,7 +50,7 @@ const Profile = () => {
     const { data, error } = await supabase.storage
       .from("profiles")
       .list(token.user.id, {
-        limit: 100,
+        limit: 1,
         offset: 0,
         search: "avatar",
       });
@@ -72,10 +72,9 @@ const Profile = () => {
 
     if (file) {
       deleteImage(e);
-      const { data } = await supabase.storage
+      const { data, error } = await supabase.storage
         .from("profiles")
         .upload(token.user.id + "/avatar_" + uuidv4(), file);
-
       if (data) getImage();
     }
   };
@@ -95,7 +94,7 @@ const Profile = () => {
       if (!localUserName) setUserName(userNameData);
       setLocalUserName(userNameData);
     }
-  }, [isFetchedUserName]);
+  }, [isFetchingUserName]);
 
   const { refetch: refetchUpdateUserName } = useQuery({
     queryKey: ["updateUserName", token?.user?.id, localUserName],

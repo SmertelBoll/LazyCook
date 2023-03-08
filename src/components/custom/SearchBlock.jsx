@@ -6,13 +6,14 @@ import {
   TextField,
   NativeSelect,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import GreyButton from "./GreyButton";
 import { useAuth } from "../auth/Auth";
 import { getCategories } from "../../services/recipes-api";
 import { useQuery } from "react-query";
+import { useLocation } from "react-router-dom";
 
 const buttonsSearchProducts = [
   {
@@ -43,16 +44,15 @@ const buttonsSearchRecipes = [
 function SearchBlock({
   searchText,
   onChangeInput,
-  component = "",
   category,
   setCategory,
+  component,
 }) {
   const { token } = useAuth();
 
   const handleChangeCategory = (event) => {
     setCategory(event.target.value);
   };
-
   const { data: categories, isFetched: isFetchedCategories } = useQuery({
     queryKey: ["getCategories"],
     queryFn: getCategories,
@@ -65,7 +65,7 @@ function SearchBlock({
         alignItems: { xs: "auto", md: "center" },
         justifyContent: {
           xs: "auto",
-          md: component === "WhatToCook" ? "flex-start" : "space-between",
+          md: component === "what-to-cook" ? "flex-end" : "space-between",
         },
         gap: { xs: 2, sm: "none" },
       }}
@@ -78,7 +78,7 @@ function SearchBlock({
         sx={{
           width: { sx: "100%", md: "40%" },
           order: { xs: 2, md: 1 },
-          display: component === "WhatToCook" ? "none" : "auto",
+          display: component === "what-to-cook" ? "none" : "auto",
         }}
         InputProps={{
           disableUnderline: true,
@@ -118,9 +118,9 @@ function SearchBlock({
           flexWrap: "wrap",
         }}
       >
-        {component === "MyProducts" ||
-        component === "Products" ||
-        component === "WhatToCook" ? (
+        {component === "my-products" ||
+        component === "products" ||
+        component === "what-to-cook" ? (
           <>
             {buttonsSearchProducts.map((obj) => (
               <GreyButton link={token ? obj.link : obj.notAuth} key={obj.link}>
@@ -131,7 +131,7 @@ function SearchBlock({
               <GreyButton link="/what-to-cook">what to cook</GreyButton>
             )}
           </>
-        ) : component === "MyRecipes" || component === "Recipes" ? (
+        ) : component === "my-recipes" || component === "recipes" ? (
           <>
             {buttonsSearchRecipes.map((obj) => (
               <GreyButton link={token ? obj.link : obj.notAuth} key={obj.link}>

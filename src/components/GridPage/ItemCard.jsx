@@ -1,5 +1,4 @@
 import {
-  Box,
   Card,
   CardContent,
   CardMedia,
@@ -7,26 +6,59 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { Box } from "@mui/system";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../auth/Auth";
 
 const noImage =
   "https://ubgaioenvbnlnkpgtyml.supabase.co/storage/v1/object/public/profiles/static/no-image.png";
 
-function ItemCard({
-  data,
-  isAdded = false,
-  handleClick = () => {},
-  isLink = false,
+export default React.memo(function ItemCard({
+  item,
+  userItemsId,
+  setNewItemsId,
+  setIsUpdate,
+  component,
 }) {
+  const [isAdded, setIsAdded] = useState(
+    component === "my-recipes" || component === "my-products" ? true : false
+  );
   const { token } = useAuth();
+  const isLink =
+    component === "recipes" || component === "my-recipes" ? true : false;
+
+  useEffect(() => {
+    if (userItemsId?.includes(item.id)) {
+      setIsAdded(true); // якщо якийсь рецепт у користувача є, то відображуємо його відповідно
+    } else {
+      setIsAdded(false);
+    }
+  }, [userItemsId]);
+
+  const handleClick = () => {
+    // додати рецепт до збережених
+    if (!isAdded) {
+      setNewItemsId([...userItemsId, item.id]);
+      setIsUpdate(true);
+    }
+    // видалити рецепт із збережених
+    else {
+      setNewItemsId(
+        userItemsId.filter(function (e) {
+          return e !== item.id;
+        })
+      );
+      setIsUpdate(true);
+    }
+    setIsAdded(!isAdded);
+  };
 
   return (
     <Box sx={{ position: "relative" }}>
-      <NavLink to={isLink ? `/recipes/${data.id}` : null}>
+      <NavLink to={isLink ? `/recipes/${item.id}` : null}>
         <Card
           bgcolor="bg.white"
           sx={{
@@ -38,12 +70,12 @@ function ItemCard({
         >
           <CardMedia
             sx={{ height: "100%", aspectRatio: "1", borderRadius: 7 }}
-            image={data.imageUrl || noImage}
+            image={item.imageUrl || noImage}
           />
           <CardContent sx={{ textAlign: "center", pt: 2, px: 0 }}>
             <Tooltip
               title={
-                <Typography fontSize={16}>{data.name || "no name"}</Typography>
+                <Typography fontSize={16}>{item.name || "no name"}</Typography>
               }
             >
               <Typography
@@ -57,7 +89,7 @@ function ItemCard({
                   whiteSpace: "pre-line",
                 }}
               >
-                {`${data.name}\n\n` || "no name"}
+                {`${item.name}\n\n` || "no name"}
               </Typography>
             </Tooltip>
           </CardContent>
@@ -90,6 +122,4 @@ function ItemCard({
       )}
     </Box>
   );
-}
-
-export default ItemCard;
+});

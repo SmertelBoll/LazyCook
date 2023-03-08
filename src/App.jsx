@@ -3,16 +3,12 @@ import { Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Layout from "./components/layout/layout";
 import HomePage from "./pages/HomePage";
-import ProductsPage from "./pages/ProductsPage";
-import RecipesPage from "./pages/RecipesPage";
-import MyRecipesPage from "./pages/MyRecipesPage";
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import AuthProvider from "./components/auth/Auth";
-import MyProductsPage from "./pages/MyProductsPage";
 import RecipeItem from "./components/RecipeItem/RecipeItem";
 import Profile from "./pages/Profile";
-import WhatToCookPage from "./components/WhatToCook/WhatToCookPage";
+import GridPage from "./pages/GridPage";
 
 function App() {
   const queryClient = new QueryClient({
@@ -30,15 +26,15 @@ function App() {
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<HomePage />} />
-            <Route path="recipes" element={<RecipesPage />} />
+            <Route path="recipes" element={<GridPage />} />
             <Route path="recipes/:id" element={<RecipeItem />} />
-            <Route path="recipes/my-recipes" element={<MyRecipesPage />} />
-            <Route path="products" element={<ProductsPage />} />
-            <Route path="products/my-products" element={<MyProductsPage />} />
+            <Route path="recipes/my-recipes" element={<GridPage />} />
+            <Route path="products" element={<GridPage />} />
+            <Route path="products/my-products" element={<GridPage />} />
             <Route path="log-in" element={<SignIn />} />
             <Route path="sign-up" element={<SignUp />} />
             <Route path="profile" element={<Profile />} />
-            <Route path="what-to-cook" element={<WhatToCookPage />} />
+            <Route path="what-to-cook" element={<GridPage />} />
           </Route>
         </Routes>
       </AuthProvider>

@@ -16,7 +16,7 @@ export const getUserName = async () => {
   const { data, error } = await supabase
   .from('userProfile')
   .select('username')
-  return data[0].username
+  return data[0]?.username
 }
 
 export const updateUserName = async ({queryKey}) => {
