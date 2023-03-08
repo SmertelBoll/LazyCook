@@ -9,6 +9,7 @@ import AuthProvider from "./components/auth/Auth";
 import RecipeItem from "./components/RecipeItem/RecipeItem";
 import Profile from "./pages/Profile";
 import GridPage from "./pages/GridPage";
+import NotFound from "./pages/NotFound";
 
 function App() {
   const queryClient = new QueryClient({
@@ -35,6 +36,7 @@ function App() {
             <Route path="sign-up" element={<SignUp />} />
             <Route path="profile" element={<Profile />} />
             <Route path="what-to-cook" element={<GridPage />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </AuthProvider>
