@@ -9,7 +9,7 @@ import { theme } from "./theme/theme";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ThemeProvider theme={theme}>
-    <BrowserRouter>
+    <BrowserRouter basename="/LazyCook/">
       <App />
     </BrowserRouter>
   </ThemeProvider>

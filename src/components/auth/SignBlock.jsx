@@ -1,11 +1,29 @@
-import { Box, TextField, Typography } from "@mui/material";
-import React from "react";
+import {
+  Box,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { StyledButton, StyledContainer } from "../custom/customComponents";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 function SignBlock({ bgImage = "", handleSubmit }) {
+  const [open, setOpen] = useState(false);
   const location = useLocation();
   const sign = location.pathname.split("-").pop();
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Box
@@ -33,12 +51,61 @@ function SignBlock({ bgImage = "", handleSubmit }) {
             maxWidth: "max(500px, 20vw)",
             bgcolor: "bg.white",
             p: { xs: 4, md: 5, lg: 6 },
-            textAlign: "center",
             borderRadius: 7,
             boxShadow: 3,
+            position: "relative",
           }}
         >
-          <Typography variant="h2" sx={{ color: "text.black" }}>
+          <Box
+            sx={{
+              position: "absolute",
+              width: "100%",
+
+              top: { xs: 4, sm: 6, md: 10 },
+              left: { xs: -4, sm: -6, md: -10 },
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
+            }}
+          >
+            <StyledButton
+              onClick={handleClickOpen}
+              sx={{
+                color: "text.grey",
+                borderRadius: 7,
+              }}
+            >
+              <Typography variant="p" sx={{ pr: 1 }}>
+                test account
+              </Typography>
+              <InfoOutlinedIcon
+                sx={{ fontSize: (theme) => theme.typography.p.fontSizeSx }}
+              />
+            </StyledButton>
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle variant="p" id="alert-dialog-title">
+                Test account
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText variant="p" id="alert-dialog-description">
+                  email: sholop.lyubomyr@gmail.com
+                </DialogContentText>
+                <DialogContentText variant="p" id="alert-dialog-description">
+                  password: 111111
+                </DialogContentText>
+              </DialogContent>
+            </Dialog>
+          </Box>
+
+          <Typography
+            variant="h2"
+            sx={{ color: "text.black", width: "100%", textAlign: "center" }}
+          >
             {sign === "in" ? "welcome" : sign === "up" ? "sign up" : ""}
           </Typography>
           <TextField
@@ -110,7 +177,11 @@ function SignBlock({ bgImage = "", handleSubmit }) {
             </Typography>
           </StyledButton>
           <Box
-            sx={{ display: sign === "in" || sign === "up" ? "block" : "none" }}
+            sx={{
+              display: sign === "in" || sign === "up" ? "block" : "none",
+              width: "100%",
+              textAlign: "center",
+            }}
           >
             <Typography variant="p" sx={{ color: "text.grey" }}>
               {sign === "in"

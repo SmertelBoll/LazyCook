@@ -27,6 +27,10 @@ function SignIn() {
       if (error) throw error;
 
       setToken(data);
+      localStorage.setItem(
+        "password",
+        JSON.stringify(formData.get("password"))
+      );
       navigate(-1);
       successSignInAlert();
     } catch (error) {

@@ -49,6 +49,7 @@ function Header() {
     signOut();
     setToken(false);
     localStorage.removeItem("token");
+    localStorage.removeItem("password");
     navigate("/");
   };
   const handleLogOut = async () => {
