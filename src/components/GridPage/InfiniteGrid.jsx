@@ -83,7 +83,6 @@ export default (function InfiniteGrid({
     queryKey: ["updateRecipesIdByUser", token?.user?.id, newItemsId],
     queryFn: updateRecipesIdByUser,
     enabled: isUpdate && Boolean(component === "recipes"),
-    staleTime: 0,
   });
 
   // Оновлення продуктів користувача
@@ -91,7 +90,6 @@ export default (function InfiniteGrid({
     queryKey: ["updateProductsIdByUser", token?.user?.id, newItemsId],
     queryFn: updateProductsIdByUser,
     enabled: isUpdate && Boolean(component === "products"),
-    staleTime: 0,
   });
 
   useEffect(() => {

@@ -75,7 +75,6 @@ function Header() {
     queryKey: ["getAvatar", token?.user?.id],
     queryFn: getAvatar,
     enabled: Boolean(token),
-    staleTime: 0,
   });
 
   useEffect(() => {
@@ -84,8 +83,9 @@ function Header() {
 
   // username
   const { data: userNameData, isFetched: isFetchedUserName } = useQuery({
-    queryKey: ["getUserName"],
+    queryKey: ["getUserName", token?.user?.id], // повторяти запрос, коли міняється token
     queryFn: getUserName,
+    enabled: Boolean(token),
   });
 
   useEffect(() => {

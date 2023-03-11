@@ -41,7 +41,6 @@ function NormalPage({ component, searchValue, category }) {
     enabled:
       Boolean(token) &&
       Boolean(component === "my-products" || component === "what-to-cook"),
-    staleTime: 0,
   });
 
   // id рецептів користувача
@@ -56,7 +55,6 @@ function NormalPage({ component, searchValue, category }) {
     enabled:
       Boolean(token) &&
       Boolean(component === "my-recipes" || component === "what-to-cook"),
-    staleTime: 0,
   });
 
   useEffect(() => {
@@ -76,7 +74,7 @@ function NormalPage({ component, searchValue, category }) {
     queryKey: ["getRecipesByUser", userRecipesId],
     queryFn: getRecipesByUser,
     enabled: isFetchedUserRecipesId && Boolean(component === "my-recipes"),
-    staleTime: 0,
+    // : 0,
   });
 
   // загрузка рецептів по пошуку
@@ -85,7 +83,6 @@ function NormalPage({ component, searchValue, category }) {
       queryKey: ["searchRecipesByUser", userRecipesId, `${searchValue}`],
       queryFn: searchRecipesByUser,
       enabled: isFetchedUserRecipesId && Boolean(component === "my-recipes"),
-      staleTime: 0,
     });
 
   // загрузка рецептів по категоріям
@@ -96,7 +93,6 @@ function NormalPage({ component, searchValue, category }) {
     queryKey: ["getUserRecipesByCategory", userRecipesId, `${category}`],
     queryFn: getUserRecipesByCategory,
     enabled: isFetchedUserRecipesId && Boolean(component === "my-recipes"),
-    staleTime: 0,
   });
 
   //* My Products
@@ -105,7 +101,6 @@ function NormalPage({ component, searchValue, category }) {
     queryKey: ["getProductsByUser", userProductsId],
     queryFn: getProductsByUser,
     enabled: isFetchedUserProductsId && Boolean(component === "my-products"),
-    staleTime: 0,
   });
 
   // загрузка продуктів по пошуку
@@ -114,7 +109,6 @@ function NormalPage({ component, searchValue, category }) {
       queryKey: ["searchProductsByUser", userProductsId, `${searchValue}`],
       queryFn: searchProductsByUser,
       enabled: isFetchedUserProductsId && Boolean(component === "my-products"),
-      staleTime: 0,
     });
 
   //* What To Cook
@@ -132,7 +126,6 @@ function NormalPage({ component, searchValue, category }) {
     enabled:
       isUpdate &&
       Boolean(component === "my-recipes" || component === "what-to-cook"),
-    staleTime: 0,
   });
 
   // Оновлення продуктів користувача
@@ -140,7 +133,6 @@ function NormalPage({ component, searchValue, category }) {
     queryKey: ["updateProductsIdByUser", token?.user?.id, newItemsId],
     queryFn: updateProductsIdByUser,
     enabled: isUpdate && Boolean(component === "my-products"),
-    staleTime: 0,
   });
 
   useEffect(() => {

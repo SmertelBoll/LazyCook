@@ -86,7 +86,6 @@ const Profile = () => {
   } = useQuery({
     queryKey: ["getUserName"],
     queryFn: getUserName,
-    staleTime: 0,
   });
 
   useEffect(() => {
@@ -100,18 +99,16 @@ const Profile = () => {
     queryKey: ["updateUserName", token?.user?.id, localUserName],
     queryFn: updateUserName,
     enabled: false,
-    staleTime: 0,
   });
   const {
     data: dataUpdatePassword,
     isFetched: isFetchedUpdatePassword,
-    isFetching,
+    isFetching: isFetchingUpdatePassword,
     refetch: refetchUpdatePassword,
   } = useQuery({
     queryKey: ["updatePassword", currentPassword, newPassword],
     queryFn: updatePassword,
     enabled: false,
-    staleTime: 0,
   });
 
   const handleUpdateUserName = () => {
@@ -128,12 +125,12 @@ const Profile = () => {
   //! Although it shouldn't. It is necessary to finalize
   const [isClickButton, setIsClickButton] = useState(false);
   useEffect(() => {
-    if (isClickButton && isFetchedUpdatePassword && !isFetching) {
+    if (isClickButton && isFetchedUpdatePassword && !isFetchingUpdatePassword) {
       if (dataUpdatePassword.error) {
         errorChangePasswordAlert(dataUpdatePassword.error.message);
       } else successChangePasswordAlert();
     }
-  }, [isFetchedUpdatePassword, isFetching]);
+  }, [isFetchingUpdatePassword]);
 
   return (
     <BoxBgWhite paddingTop={true} infinityScroll={false}>
